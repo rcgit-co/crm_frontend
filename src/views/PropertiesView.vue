@@ -6,6 +6,7 @@ import { money, PROPERTY_STATUS, PROPERTY_TYPES } from '../lib/format.js'
 import DataState from '../components/DataState.vue'
 import Modal from '../components/Modal.vue'
 import MoneyInput from '../components/MoneyInput.vue'
+import Icon from '../components/Icon.vue'
 
 const loading = ref(true)
 const error = ref('')
@@ -74,8 +75,8 @@ async function setStatus(p, status) {
 <template>
   <div>
     <div class="page-head spread">
-      <div><h1>Объекты</h1><p class="sub">Каталог недвижимости агентства</p></div>
-      <button class="primary" @click="openCreate">+ Объект</button>
+      <div><h1>Объекты</h1><p class="sub">Каталог недвижимости агентства{{ all.length ? ` · ${items.length} из ${all.length}` : '' }}</p></div>
+      <button class="primary" @click="openCreate"><Icon name="plus" :size="16" /> Объект</button>
     </div>
 
     <div class="toolbar card">
@@ -94,24 +95,27 @@ async function setStatus(p, status) {
         :searching="searching" :search-query="filters.search" @reset="resetFilters"
       >
         <div class="grid-cards">
-          <div v-for="(p, i) in items" :key="p.id" class="card prop interactive" v-reveal="{ delay: Math.min(i * 40, 240) }">
-            <div class="ptop">
-              <span class="badge" :class="(PROPERTY_STATUS[p.status]||{}).cls || 'gray'">{{ (PROPERTY_STATUS[p.status]||{}).label || p.status || '—' }}</span>
-              <span class="muted ptype">{{ PROPERTY_TYPES[p.type] || p.type }}</span>
+          <div v-for="(p, i) in items" :key="p.id" class="card prop interactive" :class="'t-'+(p.type||'flat')" v-reveal="{ delay: Math.min(i * 40, 240) }">
+            <div class="cover">
+              <Icon name="properties" :size="46" class="cover-ic" />
+              <span class="badge cover-status" :class="(PROPERTY_STATUS[p.status]||{}).cls || 'gray'"><span class="dot" />{{ (PROPERTY_STATUS[p.status]||{}).label || p.status || '—' }}</span>
+              <span class="cover-type">{{ PROPERTY_TYPES[p.type] || p.type }}</span>
             </div>
-            <h3 class="ptitle">{{ p.title || 'Объект' }}</h3>
-            <div class="pprice">{{ money(p.price) }}</div>
-            <div class="pmeta muted">
-              <span v-if="p.rooms">{{ p.rooms }}-комн.</span>
-              <span v-if="p.area">{{ p.area }} м²</span>
-              <span v-if="p.floor">{{ p.floor }}<span v-if="p.total_floors">/{{ p.total_floors }}</span> эт.</span>
-            </div>
-            <div class="paddr muted">{{ p.address || '' }}</div>
-            <div class="pactions">
-              <select :value="p.status" @change="setStatus(p, $event.target.value)" class="sm-select">
-                <option v-for="(v,k) in PROPERTY_STATUS" :key="k" :value="k">{{ v.label }}</option>
-              </select>
-              <button class="sm ghost" @click="openEdit(p)">Изм.</button>
+            <div class="pbody">
+              <h3 class="ptitle">{{ p.title || 'Объект' }}</h3>
+              <div class="pprice num">{{ money(p.price) }}</div>
+              <div class="pmeta">
+                <span v-if="p.rooms" class="spec"><Icon name="bed" :size="14" /> {{ p.rooms }}-комн.</span>
+                <span v-if="p.area" class="spec"><Icon name="ruler" :size="14" /> {{ p.area }} м²</span>
+                <span v-if="p.floor" class="spec"><Icon name="layers" :size="14" /> {{ p.floor }}<span v-if="p.total_floors">/{{ p.total_floors }}</span> эт.</span>
+              </div>
+              <div class="paddr muted" v-if="p.address"><Icon name="pin" :size="14" /> {{ p.address }}</div>
+              <div class="pactions">
+                <select :value="p.status" @change="setStatus(p, $event.target.value)" class="sm-select">
+                  <option v-for="(v,k) in PROPERTY_STATUS" :key="k" :value="k">{{ v.label }}</option>
+                </select>
+                <button class="sm ghost" @click="openEdit(p)">Изм.</button>
+              </div>
             </div>
           </div>
         </div>
@@ -146,14 +150,30 @@ async function setStatus(p, status) {
 <style scoped>
 .toolbar { display: flex; gap: 10px; padding: 12px 14px; flex-wrap: wrap; }
 .toolbar select { max-width: 130px; }
-.grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(248px, 1fr)); gap: 16px; }
-.prop { padding: 16px 18px; display: flex; flex-direction: column; gap: 4px; }
-.ptop { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
-.ptype { font-size: 12px; }
-.ptitle { font-size: 16px; line-height: 1.3; }
-.pprice { font-family: var(--num); font-weight: 600; font-size: 21px; color: var(--green-deep); margin: 4px 0; font-variant-numeric: tabular-nums; }
-.pmeta { display: flex; gap: 12px; font-size: 13px; flex-wrap: wrap; }
-.paddr { font-size: 12.5px; min-height: 16px; }
-.pactions { display: flex; gap: 8px; margin-top: 12px; align-items: center; }
-.sm-select { padding: 5px 8px; font-size: 12px; flex: 1; }
+.grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(264px, 1fr)); gap: 18px; }
+.prop { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+
+/* Обложка-листинг */
+.cover { position: relative; height: 116px; display: grid; place-items: center; overflow: hidden;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 26%, var(--card)), color-mix(in srgb, var(--accent) 8%, var(--card))); --accent: var(--green); }
+.prop.t-flat   { --accent: #7c3aed; }
+.prop.t-house  { --accent: #0e9f6e; }
+.prop.t-commercial { --accent: #2563eb; }
+.prop.t-land   { --accent: #c8962f; }
+.cover::after { content: ''; position: absolute; inset: 0; background-image: linear-gradient(color-mix(in srgb, var(--accent) 14%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--accent) 14%, transparent) 1px, transparent 1px); background-size: 22px 22px; opacity: .5; }
+.cover-ic { position: relative; color: var(--accent); opacity: .9; }
+.cover-status { position: absolute; top: 10px; left: 10px; background: var(--card); box-shadow: var(--shadow); }
+.cover-type { position: absolute; top: 12px; right: 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--accent); background: var(--card); padding: 3px 8px; border-radius: 999px; box-shadow: var(--shadow); }
+
+.pbody { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 5px; }
+.ptitle { font-size: 15.5px; line-height: 1.3; }
+.pprice { font-weight: 700; font-size: 22px; color: var(--green-deep); margin: 2px 0 4px; }
+[data-theme="dark"] .pprice { color: var(--green); }
+.pmeta { display: flex; gap: 12px; font-size: 12.5px; flex-wrap: wrap; color: var(--ink-soft); }
+.spec { display: inline-flex; align-items: center; gap: 5px; }
+.spec :deep(svg) { color: var(--ink-faint); }
+.paddr { font-size: 12.5px; display: flex; align-items: center; gap: 5px; min-height: 16px; }
+.paddr :deep(svg) { color: var(--ink-faint); flex: 0 0 auto; }
+.pactions { display: flex; gap: 8px; margin-top: 10px; align-items: center; }
+.sm-select { padding: 6px 8px; font-size: 12px; flex: 1; }
 </style>
