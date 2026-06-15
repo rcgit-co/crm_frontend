@@ -5,6 +5,9 @@ import { toasts } from '../stores/toast.js'
 import { date, ACTIVITY_TYPES } from '../lib/format.js'
 import DataState from '../components/DataState.vue'
 import Modal from '../components/Modal.vue'
+import Icon from '../components/Icon.vue'
+
+const TYPE_ICONS = { call: 'phone', meeting: 'clients', showing: 'properties', task: 'check' }
 
 const tab = ref('today')
 const tabs = [
@@ -64,7 +67,7 @@ function due(a) { return a.due_at }
   <div>
     <div class="page-head spread">
       <div><h1>Дела</h1><p class="sub">Звонки, встречи, показы и задачи</p></div>
-      <button class="primary" @click="showForm = true">+ Дело</button>
+      <button class="primary" @click="showForm = true"><Icon name="plus" :size="16" /> Дело</button>
     </div>
 
     <div class="tabs">
@@ -75,13 +78,14 @@ function due(a) { return a.due_at }
       <DataState :loading="loading" :error="error" :empty="!items.length" variant="list" empty-text="Дел нет">
         <ul class="list">
           <li v-for="a in items" :key="a.id" :class="{ done: isDone(a) }">
-            <button class="check" :class="{ on: isDone(a) }" @click="!isDone(a) && complete(a)" :title="isDone(a) ? 'Выполнено' : 'Отметить выполненным'">✓</button>
-            <span class="badge gray type">{{ ACTIVITY_TYPES[a.type] || a.type }}</span>
+            <button class="check" :class="{ on: isDone(a) }" @click="!isDone(a) && complete(a)" :title="isDone(a) ? 'Выполнено' : 'Отметить выполненным'"><Icon name="check" :size="14" /></button>
+            <span class="type-ic" :class="'t-'+a.type"><Icon :name="TYPE_ICONS[a.type] || 'check'" :size="15" /></span>
             <div class="info">
               <strong>{{ a.title }}</strong>
-              <span class="muted" v-if="a.description">{{ a.description }}</span>
+              <span class="muted desc" v-if="a.description">{{ a.description }}</span>
             </div>
-            <span class="when muted">{{ date(due(a), true) }}</span>
+            <span class="type-label" :class="'t-'+a.type">{{ ACTIVITY_TYPES[a.type] || a.type }}</span>
+            <span class="when muted"><Icon name="calendar" :size="13" /> {{ date(due(a), true) }}</span>
             <button class="sm ghost" v-if="!isDone(a)" @click="rescheduling = a; newDue = ''">Перенести</button>
           </li>
         </ul>
@@ -116,16 +120,33 @@ function due(a) { return a.due_at }
 .tabs { display: flex; gap: 6px; margin-bottom: 16px; }
 .tabs button.on { background: var(--primary-bg); color: var(--primary-fg); border-color: var(--primary-bg); }
 .list { list-style: none; margin: 0; padding: 0; }
-.list li { display: flex; align-items: center; gap: 14px; padding: 13px 18px; border-bottom: 1px solid var(--line-soft); }
+.list li { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-bottom: 1px solid var(--line-soft); transition: background .12s; }
 .list li:last-child { border-bottom: none; }
+.list li:hover { background: var(--card-2); }
 .list li.done { opacity: .55; }
 .list li.done strong { text-decoration: line-through; }
 .check { width: 26px; height: 26px; border-radius: 50%; padding: 0; display: grid; place-items: center; color: transparent; flex: 0 0 auto; }
 .check:hover { border-color: var(--green); color: var(--green); }
-.check.on { background: var(--green); border-color: var(--green); color: #fff; }
-.type { flex: 0 0 auto; }
+.check.on { background: var(--green); border-color: var(--green); color: var(--primary-fg); }
+
+/* Иконка типа — цветной чип */
+.type-ic { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; flex: 0 0 auto; background: var(--paper-2); color: var(--ink-soft); }
+.type-ic.t-call { background: color-mix(in srgb, var(--blue) 16%, transparent); color: var(--blue); }
+.type-ic.t-meeting { background: var(--green-soft); color: var(--green-deep); }
+.type-ic.t-showing { background: var(--gold-soft); color: var(--gold-strong); }
+.type-ic.t-task { background: var(--paper-2); color: var(--ink-faint); }
+[data-theme="dark"] .type-ic.t-meeting { color: var(--green); }
+
 .info { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
-.info span { font-size: 12.5px; }
-.when { font-size: 12.5px; white-space: nowrap; }
-@media (max-width: 600px) { .list li { flex-wrap: wrap; } .info { flex: 1 1 100%; order: 3; } .when { order: 2; } }
+.info strong { font-size: 13.5px; }
+.info .desc { font-size: 12.5px; }
+.type-label { font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; flex: 0 0 auto; }
+.type-label.t-call { color: var(--blue); }
+.type-label.t-meeting { color: var(--green-deep); }
+.type-label.t-showing { color: var(--gold-strong); }
+.type-label.t-task { color: var(--ink-faint); }
+[data-theme="dark"] .type-label.t-meeting { color: var(--green); }
+.when { font-size: 12.5px; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px; }
+.when :deep(svg) { color: var(--ink-faint); }
+@media (max-width: 600px) { .list li { flex-wrap: wrap; } .info { flex: 1 1 100%; order: 3; } .when { order: 2; } .type-label { display: none; } }
 </style>

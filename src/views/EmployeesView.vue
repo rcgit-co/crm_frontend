@@ -6,6 +6,7 @@ import { toasts } from '../stores/toast.js'
 import { ROLES, date, initials } from '../lib/format.js'
 import DataState from '../components/DataState.vue'
 import Modal from '../components/Modal.vue'
+import Icon from '../components/Icon.vue'
 
 // Назначаемые роли (владельца назначить нельзя — он один, создатель агентства)
 const ASSIGNABLE = { admin: 'Администратор', manager: 'Менеджер', agent: 'Агент' }
@@ -121,7 +122,7 @@ async function toggleActive(u) {
   <div>
     <div class="page-head spread">
       <div><h1>Сотрудники</h1><p class="sub">Команда агентства · вход по ИНН агентства + логин + пароль</p></div>
-      <button v-if="canManage" class="primary" @click="openCreate">+ Сотрудник</button>
+      <button v-if="canManage" class="primary" @click="openCreate"><Icon name="plus" :size="16" /> Сотрудник</button>
     </div>
 
     <div class="toolbar card">
@@ -142,14 +143,18 @@ async function toggleActive(u) {
           <thead><tr><th>Сотрудник</th><th>Логин</th><th>Контакты</th><th>Роль</th><th>Статус</th><th></th></tr></thead>
           <tbody>
             <tr v-for="u in items" :key="u.id">
-              <td data-label="Сотрудник"><div class="row" style="gap:10px"><span class="ava">{{ initials(u.name) }}</span><strong>{{ u.name || '—' }}</strong></div></td>
+              <td data-label="Сотрудник"><div class="row" style="gap:11px"><span class="ava" :class="'r-'+u.role">{{ initials(u.name) }}</span><strong>{{ u.name || '—' }}</strong></div></td>
               <td class="mono" data-label="Логин">{{ u.login || '—' }}</td>
-              <td class="muted" data-label="Контакты">{{ u.email || '—' }}<br />{{ u.phone || '' }}</td>
+              <td data-label="Контакты">
+                <div class="contact" v-if="u.email"><Icon name="mail" :size="13" /> {{ u.email }}</div>
+                <div class="contact muted" v-if="u.phone"><Icon name="phone" :size="13" /> {{ u.phone }}</div>
+                <span v-if="!u.email && !u.phone" class="muted">—</span>
+              </td>
               <td data-label="Роль">
                 <select v-if="canManage && u.role !== 'owner'" :value="u.role" @change="changeRole(u, $event.target.value)" class="role-sel">
                   <option v-for="(l,k) in ASSIGNABLE" :key="k" :value="k">{{ l }}</option>
                 </select>
-                <span v-else class="badge gray">{{ ROLES[u.role] || u.role }}</span>
+                <span v-else class="badge gold">{{ ROLES[u.role] || u.role }}</span>
               </td>
               <td data-label="Статус"><span class="badge" :class="u.is_active !== false ? 'green' : 'gray'"><span class="dot" />{{ u.is_active !== false ? 'Активен' : 'Отключён' }}</span></td>
               <td class="actions-cell" style="text-align:right;white-space:nowrap">
@@ -202,7 +207,13 @@ async function toggleActive(u) {
 
 <style scoped>
 .toolbar { display: flex; gap: 12px; padding: 12px 14px; }
-.ava { width: 30px; height: 30px; border-radius: 50%; background: var(--green-soft); color: var(--green-deep); display: grid; place-items: center; font-weight: 700; font-size: 11px; flex: 0 0 auto; }
+.ava { width: 34px; height: 34px; border-radius: 50%; background: var(--green-soft); color: var(--green-deep); display: grid; place-items: center; font-weight: 700; font-size: 11px; flex: 0 0 auto; box-shadow: 0 0 0 2px var(--card), 0 0 0 4px var(--line); }
+[data-theme="dark"] .ava { color: var(--green); }
+.ava.r-owner { box-shadow: 0 0 0 2px var(--card), 0 0 0 4px var(--gold); }
+.ava.r-admin { box-shadow: 0 0 0 2px var(--card), 0 0 0 4px var(--green); }
+.contact { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+.contact :deep(svg) { color: var(--ink-faint); flex: 0 0 auto; }
+.contact + .contact { margin-top: 3px; }
 .role-sel { padding: 5px 8px; font-size: 12.5px; max-width: 150px; }
 .fe { color: var(--rose); font-size: 11.5px; display: block; margin-top: 5px; }
 .hint { color: var(--ink-faint); font-size: 11.5px; display: block; margin-top: 5px; }
