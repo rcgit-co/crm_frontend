@@ -130,7 +130,7 @@ async function copyAgencyId() {
 .brand { display: flex; align-items: center; justify-content: space-between; padding: 4px 8px 22px; position: relative; z-index: 1; }
 .drawer-close { display: none; background: transparent; border: none; color: var(--on-dark-soft); font-size: 18px; }
 
-nav { display: flex; flex-direction: column; gap: 3px; flex: 1; position: relative; z-index: 1; }
+.side nav { display: flex; flex-direction: column; gap: 3px; flex: 1; position: relative; z-index: 1; }
 .navlink {
   display: flex; align-items: center; gap: 13px; padding: 11px 13px; border-radius: 11px;
   color: var(--on-dark-soft); font-weight: 600; font-size: 14px; position: relative;
@@ -201,18 +201,22 @@ nav { display: flex; flex-direction: column; gap: 3px; flex: 1; position: relati
   .uinfo, .user .ava.sm, .logout-top { display: none; }
 
   .bottom-nav {
-    display: flex; position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+    display: flex; flex-direction: row; position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
     background: var(--elev-bg); backdrop-filter: blur(14px);
-    border-top: 1px solid var(--line); padding: 8px 6px calc(8px + env(safe-area-inset-bottom));
-    justify-content: space-around;
+    border-top: 1px solid var(--line); padding: 6px 6px calc(6px + env(safe-area-inset-bottom));
+    justify-content: space-around; align-items: stretch; gap: 2px;
   }
   .bn-item {
-    background: transparent; border: none; flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
-    color: var(--ink-faint); font-size: 10.5px; font-weight: 600; padding: 4px 2px; border-radius: 10px;
+    background: transparent; border: none; flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+    color: var(--ink-faint); font-size: 10.5px; font-weight: 600; padding: 7px 2px; border-radius: 12px; min-height: 52px;
   }
   .bn-item:hover { transform: none; }
-  .bn-ic { font-size: 16px; line-height: 1; }
+  .bn-item:active { background: var(--paper-2); }
+  .bn-ic { flex: 0 0 auto; }
+  .bn-lbl { line-height: 1; white-space: nowrap; }
   .bn-item.active { color: var(--green-deep); }
+  [data-theme="dark"] .bn-item.active { color: var(--green); }
   .bn-item.active .bn-ic { color: var(--gold-strong); }
+  [data-theme="dark"] .bn-item.active .bn-ic { color: var(--gold-bright); }
 }
 </style>
