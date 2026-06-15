@@ -26,9 +26,10 @@ const subColor = computed(() => (props.tone === 'dark' ? 'var(--on-dark-soft)' :
         </linearGradient>
       </defs>
       <rect x="1" y="1" width="38" height="38" rx="11" :fill="'url(#g' + uid + ')'" />
-      <path d="M9 21 L20 10.5 L31 21" fill="none" stroke="#2a1b4a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
-      <path d="M12.5 19.5 V30 H27.5 V19.5" fill="none" stroke="#2a1b4a" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" opacity="0.5" />
-      <circle cx="20" cy="24.5" r="2.5" fill="#2a1b4a" />
+      <rect x="10.5" y="10.5" width="19" height="19" rx="3.5" fill="none" stroke="#2a1b4a" stroke-width="2.6" />
+      <line x1="20" y1="10.5" x2="20" y2="29.5" stroke="#2a1b4a" stroke-width="2.6" />
+      <line x1="10.5" y1="20" x2="29.5" y2="20" stroke="#2a1b4a" stroke-width="2.6" />
+      <rect x="12.4" y="12.4" width="6" height="6" rx="1" fill="#2a1b4a" opacity="0.55" />
     </svg>
     <span v-if="variant === 'full'" class="word">
       <span class="name">Реалти</span>
