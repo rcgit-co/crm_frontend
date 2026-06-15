@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { router } from './router.js'
 import { auth } from './stores/auth.js'
+import './stores/theme.js'   // инициализирует тему (data-theme) до монтирования
 import { reveal } from './lib/reveal.js'
 import './styles.css'
 

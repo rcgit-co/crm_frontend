@@ -3,6 +3,7 @@ import { ref, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { auth } from '../stores/auth.js'
 import { toasts } from '../stores/toast.js'
+import { theme } from '../stores/theme.js'
 import { ROLES, initials } from '../lib/format.js'
 import BrandLogo from './BrandLogo.vue'
 import Icon from './Icon.vue'
@@ -77,6 +78,10 @@ async function copyAgencyId() {
         <router-link v-else to="/agency" class="agency-tag warn">⚠ Агентство не привязано</router-link>
 
         <div class="spacer"></div>
+
+        <button class="theme-btn" @click="theme.toggle()" :aria-label="theme.isDark ? 'Светлая тема' : 'Тёмная тема'" :title="theme.isDark ? 'Светлая тема' : 'Тёмная тема'">
+          <Icon :name="theme.isDark ? 'sun' : 'moon'" :size="18" />
+        </button>
 
         <div class="user">
           <div class="ava sm">{{ initials(auth.displayName) }}</div>
@@ -154,9 +159,11 @@ nav { display: flex; flex-direction: column; gap: 3px; flex: 1; position: relati
 .main { display: flex; flex-direction: column; min-width: 0; }
 .topbar {
   display: flex; align-items: center; gap: 12px; padding: 13px 30px;
-  background: rgba(252,250,244,.82); backdrop-filter: blur(10px);
+  background: var(--topbar-bg); backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 20;
 }
+.theme-btn { width: 38px; height: 38px; padding: 0; display: grid; place-items: center; border-radius: 11px; background: transparent; border: 1px solid var(--line); color: var(--ink-soft); }
+.theme-btn:hover { color: var(--gold-strong); border-color: var(--gold); }
 .spacer { flex: 1; }
 .burger { display: none; flex-direction: column; gap: 4px; padding: 9px; background: transparent; border: 1px solid var(--line); }
 .burger span { width: 18px; height: 2px; background: var(--ink); border-radius: 2px; }
@@ -195,7 +202,7 @@ nav { display: flex; flex-direction: column; gap: 3px; flex: 1; position: relati
 
   .bottom-nav {
     display: flex; position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
-    background: rgba(252,250,244,.9); backdrop-filter: blur(14px);
+    background: var(--elev-bg); backdrop-filter: blur(14px);
     border-top: 1px solid var(--line); padding: 8px 6px calc(8px + env(safe-area-inset-bottom));
     justify-content: space-around;
   }
