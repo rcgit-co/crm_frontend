@@ -103,10 +103,9 @@ const kpis = computed(() => [
 
 /* ——— KPI ——— */
 .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: var(--s5); }
-.stat { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px 26px; display: flex; flex-direction: column; gap: 10px; color: var(--ink); transition: transform .2s cubic-bezier(.2,.7,.2,1), box-shadow .2s, border-color .2s; }
-.stat:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--green); }
-.stat-ic { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: var(--green-soft); color: var(--green-deep); }
-[data-theme="dark"] .stat-ic { color: var(--green); }
+.stat { background: var(--card); border-radius: var(--radius); padding: 24px 26px; display: flex; flex-direction: column; gap: 10px; color: var(--ink); box-shadow: var(--nm-raise); transition: transform .2s cubic-bezier(.2,.7,.2,1), box-shadow .2s; }
+.stat:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+.stat-ic { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; background: var(--card); box-shadow: var(--nm-press-sm); color: var(--green); }
 .stat-label { font-size: 13px; color: var(--ink-soft); }
 .stat-num { font-size: 52px; line-height: 1; font-weight: 800; letter-spacing: -.02em; }
 .stat-go { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: var(--green); margin-top: 2px; }
@@ -124,7 +123,7 @@ const kpis = computed(() => [
 .bars { display: grid; gap: 16px; }
 .bar-row { display: grid; grid-template-columns: 110px 1fr 38px auto; align-items: center; gap: 14px; font-size: 14px; }
 .bl { font-weight: 600; }
-.track { height: 8px; background: var(--paper-2); border-radius: 999px; overflow: hidden; }
+.track { height: 10px; background: var(--card); border-radius: 999px; overflow: hidden; box-shadow: var(--nm-press-sm); }
 .fill { height: 100%; background: var(--green); border-radius: 999px; transition: width .7s cubic-bezier(.2,.7,.2,1); min-width: 2px; }
 .bc { font-weight: 800; text-align: right; }
 .ba { font-size: 12.5px; color: var(--ink-faint); }

@@ -26,7 +26,7 @@ async function submit() {
 
 <template>
   <AuthShell>
-    <div class="brand"><BrandLogo variant="full" tone="dark" :size="40" /></div>
+    <div class="brand"><BrandLogo variant="full" tone="light" :size="40" /></div>
     <span class="eyebrow">Вход в систему</span>
     <h1>С возвращением</h1>
     <p class="lead">Управляйте сделками, клиентами и объектами агентства в одном окне.</p>
@@ -61,6 +61,6 @@ async function submit() {
 .lead { font-size: 14px; margin: 0; line-height: 1.5; }
 .submit { width: 100%; font-size: 14px; padding: 12px; }
 .alt { margin-top: 20px; font-size: 13.5px; }
-.secure { margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(236,228,211,.12); font-size: 12px; color: var(--on-dark-soft); display: flex; align-items: center; gap: 8px; }
-.secure .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold-bright); box-shadow: 0 0 8px var(--gold-bright); }
+.secure { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 12px; color: var(--ink-faint); display: flex; align-items: center; gap: 8px; }
+.secure .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
 </style>

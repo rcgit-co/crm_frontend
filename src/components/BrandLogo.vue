@@ -20,9 +20,9 @@ const subColor = computed(() => (props.tone === 'dark' ? 'var(--on-dark-soft)' :
     <svg class="mark" :width="size" :height="size" viewBox="0 0 40 40" fill="none" aria-hidden="true">
       <defs>
         <linearGradient :id="'g' + uid" x1="6" y1="4" x2="34" y2="36" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#2dd4bf" />
-          <stop offset="0.55" stop-color="#0f766e" />
-          <stop offset="1" stop-color="#0b5e57" />
+          <stop stop-color="#6f97ec" />
+          <stop offset="0.55" stop-color="#3b6fe0" />
+          <stop offset="1" stop-color="#2f5fd0" />
         </linearGradient>
       </defs>
       <rect x="1" y="1" width="38" height="38" rx="11" :fill="'url(#g' + uid + ')'" />
@@ -40,7 +40,7 @@ const subColor = computed(() => (props.tone === 'dark' ? 'var(--on-dark-soft)' :
 
 <style scoped>
 .brand-logo { display: inline-flex; align-items: center; gap: 11px; }
-.mark { flex: 0 0 auto; border-radius: 11px; box-shadow: 0 4px 14px rgba(15,118,110,.28); }
+.mark { flex: 0 0 auto; border-radius: 11px; box-shadow: 4px 4px 10px var(--nm-d), -4px -4px 10px var(--nm-l); }
 .word { display: inline-flex; align-items: baseline; gap: 6px; line-height: 1; }
 .name { font-family: var(--serif); font-weight: 700; font-size: 21px; letter-spacing: -.01em; color: v-bind(textColor); }
 .crm { font-family: var(--sans); font-weight: 700; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); padding-bottom: 2px; }

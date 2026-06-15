@@ -86,7 +86,7 @@ async function submit() {
 
 <template>
   <AuthShell wide>
-    <BrandLogo variant="full" tone="dark" :size="38" />
+    <BrandLogo variant="full" tone="light" :size="38" />
     <span class="eyebrow" style="display:block;margin-top:18px">Создание агентства</span>
     <h2 style="margin-top:8px">Регистрация</h2>
     <p class="muted">Создаём владельца и агентство сразу — после регистрации можно работать.</p>
@@ -148,7 +148,7 @@ async function submit() {
 .grid.two .full { grid-column: 1 / -1; }
 .alt { margin-top: 22px; font-size: 13.5px; text-align: center; }
 @media (max-width: 520px) { .grid.two { grid-template-columns: 1fr; } }
-.err-banner { margin-top: 16px; background: rgba(240,133,122,.16); color: #f3a39a; border: 1px solid rgba(240,133,122,.3); padding: 10px 13px; border-radius: 10px; font-size: 13px; }
+.err-banner { margin-top: 16px; background: color-mix(in srgb, var(--rose) 12%, transparent); color: var(--rose); padding: 11px 14px; border-radius: 12px; font-size: 13px; font-weight: 600; box-shadow: var(--nm-press-sm); }
 .fe { font-size: 11.5px; display: block; margin-top: 5px; }
 .hint { font-size: 11.5px; display: block; margin-top: 5px; }
 input.bad { border-color: #f3a39a !important; }
