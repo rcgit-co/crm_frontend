@@ -6,7 +6,9 @@ import { toasts } from '../stores/toast.js'
 import { date, CONTRACT_TYPES, ROLES } from '../lib/format.js'
 import DataState from '../components/DataState.vue'
 import Modal from '../components/Modal.vue'
+import Icon from '../components/Icon.vue'
 
+const tab = ref('info')
 const loading = ref(true)
 const error = ref('')
 const noAgency = ref(false)     // агентство ещё не создано (404)
@@ -129,57 +131,89 @@ async function addContract() {
     </div>
 
     <!-- Агентство есть -->
-    <DataState v-else :loading="loading" :error="error">
-      <div class="cols">
-        <section class="card pad">
-          <h3>Реквизиты</h3>
-          <div class="grid" style="gap:13px;margin-top:14px">
-            <div class="row" style="gap:12px">
-              <div style="flex:1"><label>ИНН</label><input :value="agency?.inn" disabled /></div>
-              <div style="flex:1"><label>Статус</label><input :value="agency?.status" disabled /></div>
-            </div>
-            <div><label>Название</label><input v-model="info.name" /></div>
-            <div><label>Юр. название</label><input v-model="info.legal_name" /></div>
-            <div><label>Юр. адрес</label><input v-model="info.legal_address" /></div>
-            <button class="primary" :disabled="savingInfo" @click="saveInfo" style="justify-self:start">{{ savingInfo ? '…' : 'Сохранить реквизиты' }}</button>
+    <DataState v-else :loading="loading" :error="error" variant="block">
+      <!-- Шапка агентства -->
+      <div class="tile ag-head" v-reveal>
+        <span class="ag-logo">{{ (info.name || 'А')[0] }}</span>
+        <div class="ag-meta">
+          <h2>{{ info.name || 'Агентство' }}</h2>
+          <div class="ag-sub">
+            <span class="badge gray mono">ИНН {{ agency?.inn || '—' }}</span>
+            <span class="badge green"><span class="dot" />{{ agency?.status || 'активно' }}</span>
+            <span class="badge gold">{{ ROLES[auth.role] || auth.role }}</span>
           </div>
-        </section>
-
-        <section class="card pad">
-          <h3>Брендинг</h3>
-          <div class="preview" :style="{ background: brand.color_bg, color: brand.color_accent, fontFamily: brand.font }">
-            <span class="logo" :style="{ background: brand.color_accent, color: brand.color_bg }">{{ (info.name || 'А')[0] }}</span>
-            <div>
-              <strong :style="{ fontFamily: brand.font }">{{ info.name || 'Ваше агентство' }}</strong>
-              <em>акцент {{ brand.color_accent }} · {{ brand.font }}</em>
-            </div>
-          </div>
-          <div class="grid" style="gap:13px;margin-top:14px">
-            <div class="row" style="gap:12px;align-items:flex-end">
-              <div><label>Фон</label><input v-model="brand.color_bg" type="color" style="width:56px;height:40px;padding:3px" /></div>
-              <div><label>Акцент</label><input v-model="brand.color_accent" type="color" style="width:56px;height:40px;padding:3px" /></div>
-              <div style="flex:1"><label>Шрифт</label><input v-model="brand.font" placeholder="Inter" /></div>
-            </div>
-            <button class="primary" :disabled="savingBrand" @click="saveBrand" style="justify-self:start">{{ savingBrand ? '…' : 'Сохранить брендинг' }}</button>
-          </div>
-        </section>
+        </div>
       </div>
 
-      <section class="card pad" style="margin-top:16px">
-        <div class="spread"><h3>Договоры</h3><button class="sm" @click="showContract = true">+ Договор</button></div>
-        <div v-if="contracts.length" class="table-scroll"><table style="margin-top:12px">
+      <!-- Вкладки -->
+      <div class="tabs">
+        <button :class="{ on: tab === 'info' }" @click="tab = 'info'">Реквизиты</button>
+        <button :class="{ on: tab === 'brand' }" @click="tab = 'brand'">Брендинг</button>
+        <button :class="{ on: tab === 'contracts' }" @click="tab = 'contracts'">Договоры <span class="cnt">{{ contracts.length }}</span></button>
+      </div>
+
+      <!-- Реквизиты -->
+      <section v-if="tab === 'info'" class="tile pad" v-reveal>
+        <div class="grid" style="gap:14px;max-width:560px">
+          <div class="row" style="gap:12px">
+            <div style="flex:1"><label>ИНН</label><input :value="agency?.inn" disabled /></div>
+            <div style="flex:1"><label>Статус</label><input :value="agency?.status" disabled /></div>
+          </div>
+          <div><label>Название</label><input v-model="info.name" /></div>
+          <div><label>Юридическое название</label><input v-model="info.legal_name" /></div>
+          <div><label>Юридический адрес</label><input v-model="info.legal_address" /></div>
+          <button class="primary" :disabled="savingInfo" @click="saveInfo" style="justify-self:start">{{ savingInfo ? 'Сохраняем…' : 'Сохранить реквизиты' }}</button>
+        </div>
+      </section>
+
+      <!-- Брендинг -->
+      <section v-else-if="tab === 'brand'" class="tile pad" v-reveal>
+        <div class="brand-grid">
+          <div>
+            <span class="eyebrow">Предпросмотр</span>
+            <div class="preview" :style="{ background: brand.color_bg, color: brand.color_accent, fontFamily: brand.font }">
+              <span class="logo" :style="{ background: brand.color_accent, color: brand.color_bg }">{{ (info.name || 'А')[0] }}</span>
+              <div>
+                <strong :style="{ fontFamily: brand.font }">{{ info.name || 'Ваше агентство' }}</strong>
+                <em>акцент {{ brand.color_accent }} · {{ brand.font }}</em>
+              </div>
+            </div>
+          </div>
+          <div class="grid" style="gap:14px;align-content:start">
+            <div class="row" style="gap:14px;align-items:flex-end">
+              <div><label>Фон</label><input v-model="brand.color_bg" type="color" class="swatch" /></div>
+              <div><label>Акцент</label><input v-model="brand.color_accent" type="color" class="swatch" /></div>
+              <div style="flex:1"><label>Шрифт</label><input v-model="brand.font" placeholder="Inter" /></div>
+            </div>
+            <button class="primary" :disabled="savingBrand" @click="saveBrand" style="justify-self:start">{{ savingBrand ? 'Сохраняем…' : 'Сохранить брендинг' }}</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Договоры -->
+      <section v-else class="tile" v-reveal>
+        <div class="spread tile-pad">
+          <h3>Договоры</h3>
+          <button class="primary sm" @click="showContract = true"><Icon name="plus" :size="15" /> Договор</button>
+        </div>
+        <div v-if="contracts.length" class="table-scroll"><table>
           <thead><tr><th>№</th><th>Контрагент</th><th>Тип</th><th>Подписан</th><th>Действует до</th></tr></thead>
           <tbody>
             <tr v-for="c in contracts" :key="c.id">
               <td class="mono">{{ c.number }}</td>
               <td>{{ c.counterparty_name || '—' }}<span class="muted" v-if="c.counterparty_inn"> · {{ c.counterparty_inn }}</span></td>
-              <td><span class="badge gray">{{ CONTRACT_TYPES[c.type] || c.type }}</span></td>
+              <td><span class="badge gold">{{ CONTRACT_TYPES[c.type] || c.type }}</span></td>
               <td class="muted">{{ date(c.signed_at) }}</td>
               <td class="muted">{{ date(c.valid_until) }}</td>
             </tr>
           </tbody>
         </table></div>
-        <p v-else class="muted" style="margin-top:12px">Договоров пока нет</p>
+        <div v-else class="contracts-empty">
+          <div class="ce-ic"><Icon name="agency" :size="22" /></div>
+          <strong>Договоров пока нет</strong>
+          <span class="muted">Добавьте первый договор с застройщиком или собственником</span>
+          <button class="primary sm" @click="showContract = true"><Icon name="plus" :size="15" /> Договор</button>
+        </div>
       </section>
     </DataState>
 
@@ -205,17 +239,38 @@ async function addContract() {
 </template>
 
 <style scoped>
-.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.pad { padding: 20px 22px; }
+.pad { padding: 22px 24px; }
 .create h3, .rebind h3 { font-size: 19px; }
 .rebind { border-left: 3px solid var(--green); }
 .create code, .rebind code { background: var(--paper-2); padding: 1px 6px; border-radius: 5px; font-size: 13px; }
 .warn-box { background: var(--gold-soft); color: var(--gold-strong); padding: 12px 14px; border-radius: 10px; font-size: 13.5px; max-width: 520px; }
 .hint { color: var(--ink-faint); font-size: 11.5px; display: block; margin-top: 5px; }
-.preview { margin-top: 14px; border-radius: 12px; padding: 18px; display: flex; align-items: center; gap: 14px; border: 1px solid var(--line); }
+
+/* Шапка агентства */
+.ag-head { display: flex; align-items: center; gap: 18px; padding: 22px 24px; margin-bottom: 16px; }
+.ag-logo { width: 58px; height: 58px; border-radius: 16px; display: grid; place-items: center; font-family: var(--serif); font-weight: 700; font-size: 28px; color: var(--primary-fg); background: var(--grad-hero); flex: 0 0 auto; box-shadow: var(--shadow); }
+.ag-meta h2 { font-size: 22px; }
+.ag-sub { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+
+/* Вкладки */
+.tabs { display: flex; gap: 6px; margin-bottom: 16px; }
+.tabs button.on { background: var(--primary-bg); color: var(--primary-fg); border-color: var(--primary-bg); }
+.tabs .cnt { margin-left: 6px; font-size: 11px; background: color-mix(in srgb, currentColor 18%, transparent); padding: 1px 6px; border-radius: 999px; }
+
+/* Брендинг */
+.brand-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+.preview { margin-top: 10px; border-radius: 14px; padding: 20px; display: flex; align-items: center; gap: 14px; border: 1px solid var(--line); min-height: 92px; }
 .preview strong { display: block; font-size: 18px; }
 .preview em { font-style: normal; opacity: .8; font-size: 12px; }
-.logo { width: 46px; height: 46px; border-radius: 11px; display: grid; place-items: center; font-weight: 700; font-size: 22px; }
+.logo { width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; font-weight: 700; font-size: 22px; flex: 0 0 auto; }
+.swatch { width: 56px; height: 42px; padding: 3px; cursor: pointer; }
 input:disabled { opacity: .7; background: var(--paper-2); }
-@media (max-width: 860px) { .cols { grid-template-columns: 1fr; } }
+
+/* Договоры */
+.tile-pad { padding: 18px 22px; border-bottom: 1px solid var(--line-soft); }
+.contracts-empty { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 44px 20px; text-align: center; }
+.ce-ic { width: 48px; height: 48px; border-radius: 14px; background: var(--green-soft); color: var(--green-deep); display: grid; place-items: center; }
+[data-theme="dark"] .ce-ic { color: var(--green); }
+
+@media (max-width: 860px) { .brand-grid { grid-template-columns: 1fr; } }
 </style>
