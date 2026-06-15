@@ -5,6 +5,7 @@ import { auth } from '../stores/auth.js'
 import { authApi } from '../api/auth.js'
 import { agencyApi } from '../api/agency.js'
 import { toasts } from '../stores/toast.js'
+import AuthShell from '../components/AuthShell.vue'
 import BrandLogo from '../components/BrandLogo.vue'
 
 const router = useRouter()
@@ -84,16 +85,15 @@ async function submit() {
 </script>
 
 <template>
-  <div class="auth">
-    <div class="form-side">
-      <div class="form-box card">
-        <BrandLogo variant="full" tone="light" :size="34" />
-        <h2 style="margin-top:18px">Регистрация агентства</h2>
-        <p class="muted">Создаём владельца и агентство сразу — после регистрации можно работать.</p>
+  <AuthShell wide>
+    <BrandLogo variant="full" tone="dark" :size="38" />
+    <span class="eyebrow" style="display:block;margin-top:18px">Создание агентства</span>
+    <h2 style="margin-top:8px">Регистрация</h2>
+    <p class="muted">Создаём владельца и агентство сразу — после регистрации можно работать.</p>
 
-        <div v-if="generalError" class="err-banner">{{ generalError }}</div>
+    <div v-if="generalError" class="err-banner">{{ generalError }}</div>
 
-        <form @submit.prevent="submit" novalidate>
+    <form @submit.prevent="submit" novalidate>
           <div class="grid two">
             <div class="full">
               <label>Название агентства *</label>
@@ -139,23 +139,17 @@ async function submit() {
           </div>
         </form>
 
-        <p class="alt">Уже есть аккаунт? <router-link to="/login">Войти</router-link></p>
-      </div>
-    </div>
-  </div>
+    <p class="alt">Уже есть аккаунт? <router-link to="/login">Войти</router-link></p>
+  </AuthShell>
 </template>
 
 <style scoped>
-.auth { display: grid; place-items: center; min-height: 100vh; padding: 40px; }
-.form-box { width: 480px; max-width: 100%; padding: 32px; }
-.form-box h2 { font-size: 26px; }
 .grid.two { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 22px; }
 .grid.two .full { grid-column: 1 / -1; }
 .alt { margin-top: 22px; font-size: 13.5px; text-align: center; }
-@media (max-width: 520px) { .grid.two { grid-template-columns: 1fr; } .form-box { padding: 22px; } }
-.err-banner { margin-top: 16px; background: #f6e3df; color: #97392c; padding: 10px 13px; border-radius: 10px; font-size: 13px; }
-.fe { color: var(--rose); font-size: 11.5px; display: block; margin-top: 5px; }
-.hint { color: var(--ink-faint); font-size: 11.5px; display: block; margin-top: 5px; }
-input.bad { border-color: var(--rose); }
-input.bad:focus { box-shadow: 0 0 0 3px #f6e3df; }
+@media (max-width: 520px) { .grid.two { grid-template-columns: 1fr; } }
+.err-banner { margin-top: 16px; background: rgba(240,133,122,.16); color: #f3a39a; border: 1px solid rgba(240,133,122,.3); padding: 10px 13px; border-radius: 10px; font-size: 13px; }
+.fe { font-size: 11.5px; display: block; margin-top: 5px; }
+.hint { font-size: 11.5px; display: block; margin-top: 5px; }
+input.bad { border-color: #f3a39a !important; }
 </style>

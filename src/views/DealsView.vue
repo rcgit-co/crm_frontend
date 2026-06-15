@@ -181,7 +181,7 @@ async function onDetailChanged() { deals.value = (await dealApi.list({ limit: 20
 .chips { display: flex; flex-direction: column; gap: 4px; margin-bottom: 6px; }
 .chip { font-size: 11px; padding: 2px 7px; border-radius: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 .chip.client { background: var(--green-soft); color: var(--green-deep); }
-.chip.prop { background: #e3ecf5; color: #2d567f; }
+.chip.prop { background: color-mix(in srgb, var(--blue) 16%, transparent); color: var(--blue); }
 .chip.owner { background: var(--gold-soft); color: var(--gold-strong); }
 .dmeta { font-size: 11.5px; }
 .col-empty { text-align: center; padding: 14px 0; font-size: 18px; }

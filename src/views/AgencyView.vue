@@ -210,7 +210,7 @@ async function addContract() {
 .create h3, .rebind h3 { font-size: 19px; }
 .rebind { border-left: 3px solid var(--green); }
 .create code, .rebind code { background: var(--paper-2); padding: 1px 6px; border-radius: 5px; font-size: 13px; }
-.warn-box { background: #f5ecd9; color: #8a6420; padding: 12px 14px; border-radius: 10px; font-size: 13.5px; max-width: 520px; }
+.warn-box { background: var(--gold-soft); color: var(--gold-strong); padding: 12px 14px; border-radius: 10px; font-size: 13.5px; max-width: 520px; }
 .hint { color: var(--ink-faint); font-size: 11.5px; display: block; margin-top: 5px; }
 .preview { margin-top: 14px; border-radius: 12px; padding: 18px; display: flex; align-items: center; gap: 14px; border: 1px solid var(--line); }
 .preview strong { display: block; font-size: 18px; }

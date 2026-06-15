@@ -114,7 +114,7 @@ function due(a) { return a.due_at }
 
 <style scoped>
 .tabs { display: flex; gap: 6px; margin-bottom: 16px; }
-.tabs button.on { background: var(--green); color: #fff; border-color: var(--green); }
+.tabs button.on { background: var(--primary-bg); color: var(--primary-fg); border-color: var(--primary-bg); }
 .list { list-style: none; margin: 0; padding: 0; }
 .list li { display: flex; align-items: center; gap: 14px; padding: 13px 18px; border-bottom: 1px solid var(--line-soft); }
 .list li:last-child { border-bottom: none; }
