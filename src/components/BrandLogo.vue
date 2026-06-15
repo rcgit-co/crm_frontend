@@ -20,16 +20,16 @@ const subColor = computed(() => (props.tone === 'dark' ? 'var(--on-dark-soft)' :
     <svg class="mark" :width="size" :height="size" viewBox="0 0 40 40" fill="none" aria-hidden="true">
       <defs>
         <linearGradient :id="'g' + uid" x1="6" y1="4" x2="34" y2="36" gradientUnits="userSpaceOnUse">
-          <stop stop-color="#E0C173" />
-          <stop offset="0.55" stop-color="#C8A24A" />
-          <stop offset="1" stop-color="#A9803C" />
+          <stop stop-color="#2dd4bf" />
+          <stop offset="0.55" stop-color="#0f766e" />
+          <stop offset="1" stop-color="#0b5e57" />
         </linearGradient>
       </defs>
       <rect x="1" y="1" width="38" height="38" rx="11" :fill="'url(#g' + uid + ')'" />
-      <rect x="10.5" y="10.5" width="19" height="19" rx="3.5" fill="none" stroke="#2a1b4a" stroke-width="2.6" />
-      <line x1="20" y1="10.5" x2="20" y2="29.5" stroke="#2a1b4a" stroke-width="2.6" />
-      <line x1="10.5" y1="20" x2="29.5" y2="20" stroke="#2a1b4a" stroke-width="2.6" />
-      <rect x="12.4" y="12.4" width="6" height="6" rx="1" fill="#2a1b4a" opacity="0.55" />
+      <rect x="10.5" y="10.5" width="19" height="19" rx="3.5" fill="none" stroke="#ffffff" stroke-width="2.6" />
+      <line x1="20" y1="10.5" x2="20" y2="29.5" stroke="#ffffff" stroke-width="2.6" />
+      <line x1="10.5" y1="20" x2="29.5" y2="20" stroke="#ffffff" stroke-width="2.6" />
+      <rect x="12.4" y="12.4" width="6" height="6" rx="1" fill="#ffffff" opacity="0.6" />
     </svg>
     <span v-if="variant === 'full'" class="word">
       <span class="name">Реалти</span>
@@ -40,7 +40,7 @@ const subColor = computed(() => (props.tone === 'dark' ? 'var(--on-dark-soft)' :
 
 <style scoped>
 .brand-logo { display: inline-flex; align-items: center; gap: 11px; }
-.mark { flex: 0 0 auto; border-radius: 11px; box-shadow: 0 4px 14px rgba(200,162,74,.28); }
+.mark { flex: 0 0 auto; border-radius: 11px; box-shadow: 0 4px 14px rgba(15,118,110,.28); }
 .word { display: inline-flex; align-items: baseline; gap: 6px; line-height: 1; }
 .name { font-family: var(--serif); font-weight: 700; font-size: 21px; letter-spacing: -.01em; color: v-bind(textColor); }
 .crm { font-family: var(--sans); font-weight: 700; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); padding-bottom: 2px; }

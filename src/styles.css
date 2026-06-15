@@ -1,128 +1,124 @@
 /* ═══════════════════════════════════════════════════════════
-   РеалтиCRM · Bento-grid SaaS · Fraunces + Inter · Light/Dark
-   Токены определены для светлой (:root) и тёмной ([data-theme=dark])
-   тем; имена переменных общие — компоненты темонезависимы.
+   РеалтиCRM v2 · Exaggerated Minimalism · Teal + Blue · Cormorant + Manrope
+   Дизайн-система спроектирована скиллом ui-ux-pro-max (design-system/реалтиcrm2).
+   Имена переменных общие — компоненты темонезависимы.
    ═══════════════════════════════════════════════════════════ */
 
 :root {
-  /* Поверхности (светлая тема, лёгкий фиолетовый подтон) */
-  --paper: #f4f2fa;
-  --paper-2: #ebe7f5;
-  --paper-3: #e1dcf0;
+  /* Поверхности (светлая тема — основная) */
+  --paper: #f0fdfa;      /* canvas */
+  --paper-2: #e2f3ef;
+  --paper-3: #d6ece7;
   --card: #ffffff;
-  --card-2: #f8f6fc;
+  --card-2: #f4fbf9;
 
   /* Текст */
-  --ink: #1e1633;        /* глубокий фиолетовый-ink */
-  --ink-soft: #463a5f;
-  --ink-faint: #6b6285;  /* ≥4.5:1 на светлом */
+  --ink: #0b1b19;        /* near-black с тилом */
+  --ink-soft: #43615c;
+  --ink-faint: #5e756f;  /* ≥4.5:1 на canvas */
 
   /* Линии */
-  --line: #e7e2f1;
-  --line-soft: #efebf7;
+  --line: #dceae6;
+  --line-soft: #e8f2ef;
 
-  /* Бренд — аметист */
-  --green: #7c3aed;
-  --green-deep: #6d28d9;
-  --green-darker: #2a1b4a;
-  --green-soft: #ece6fb;
+  /* Бренд — teal */
+  --green: #0f766e;
+  --green-deep: #0b5e57;
+  --green-darker: #06403a;
+  --green-soft: #d6f2ee;
 
-  /* Акцент — шампань */
-  --gold: #b6892d;
-  --gold-strong: #8a6420;
-  --gold-bright: #d8b25a;
-  --gold-soft: #f4ecd8;
+  /* Акцент — профессиональный синий (бывш. «gold»-роль) */
+  --gold: #0369a1;
+  --gold-strong: #075985;
+  --gold-bright: #38bdf8;
+  --gold-soft: #dceef8;
 
-  /* Семантический «успех» (статусы active/done — остаются зелёными) */
+  /* Семантика статусов */
   --ok: #15803d;
   --ok-soft: #dcfce7;
+  --blue: #0369a1;
+  --rose: #b91c1c;
+  --rose-deep: #991b1b;
 
-  /* Доп. сигналы */
-  --blue: #4f46e5;
-  --rose: #be123c;
-  --rose-deep: #9f1239;
-
-  /* Текст на тёмных (фиолетовых) зонах — в обеих темах */
-  --on-dark: #ece7f5;
-  --on-dark-soft: #b3a9c9;
-  --on-dark-faint: #7d7393;
+  /* Текст на тёмных бренд-зонах (в обеих темах) */
+  --on-dark: #e6f2ef;
+  --on-dark-soft: #9fbcb6;
+  --on-dark-faint: #6e847e;
 
   /* Кнопка primary */
-  --primary-bg: #6d28d9;
-  --primary-fg: #f5f1ff;
-  --primary-bg-hover: #5b21b6;
+  --primary-bg: #0f766e;
+  --primary-fg: #ffffff;
+  --primary-bg-hover: #0b5e57;
 
   /* Слои интерфейса */
-  --topbar-bg: rgba(255,255,255,.82);
+  --topbar-bg: rgba(255,255,255,.8);
   --elev-bg: rgba(255,255,255,.9);
 
-  /* Градиенты */
-  --grad-hero: radial-gradient(130% 120% at 82% -10%, #3a2566 0%, #241544 48%, #15102a 100%);
-  --grad-paper: linear-gradient(180deg, #f5f3fb 0%, #efebf7 100%);
-  --grad-brass: linear-gradient(135deg, #e0c173 0%, #c8a24a 55%, #a9803c 100%);
+  /* Градиенты (минимум) */
+  --grad-hero: radial-gradient(130% 120% at 82% -10%, #0f766e 0%, #0b4a45 50%, #06302c 100%);
+  --grad-paper: linear-gradient(180deg, #f2fdfb 0%, #eaf8f4 100%);
+  --grad-brass: linear-gradient(135deg, #2dd4bf 0%, #0f766e 60%, #0b5e57 100%);
 
-  /* Тени */
-  --shadow: 0 1px 2px rgba(30,22,51,.05), 0 8px 24px rgba(30,22,51,.07);
-  --shadow-lg: 0 10px 28px rgba(30,22,51,.10), 0 30px 70px rgba(30,22,51,.13);
-  --shadow-gold: 0 8px 26px rgba(184,137,45,.28);
+  /* Тени — минимальны (минимализм: границы важнее теней) */
+  --shadow: 0 1px 2px rgba(11,27,25,.04), 0 6px 18px rgba(11,27,25,.05);
+  --shadow-lg: 0 10px 28px rgba(11,27,25,.08), 0 24px 60px rgba(11,27,25,.08);
+  --shadow-gold: 0 8px 24px rgba(15,118,110,.22);
 
-  /* Glass (для тёмных зон) */
   --glass-bg: rgba(255,255,255,.06);
-  --glass-border: rgba(236,231,245,.16);
+  --glass-border: rgba(230,242,239,.16);
 
-  /* Шрифты */
-  --serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  --sans: 'Inter', system-ui, -apple-system, sans-serif;
+  /* Шрифты (Cyrillic-safe реализация Cinzel + Josefin Sans) */
+  --serif: 'Cormorant', Georgia, 'Times New Roman', serif;
+  --sans: 'Manrope', system-ui, -apple-system, sans-serif;
   --num: var(--sans);
 
   /* Радиусы и сетка 8px */
-  --radius: 14px;
-  --radius-lg: 18px;
+  --radius: 16px;
+  --radius-lg: 20px;
   --s1: 8px; --s2: 16px; --s3: 24px; --s4: 32px; --s5: 48px; --s6: 64px;
 }
 
 [data-theme="dark"] {
-  --paper: #120e1c;
-  --paper-2: #1b1528;
-  --paper-3: #241c33;
-  --card: #1a1326;
-  --card-2: #221932;
+  --paper: #08110f;
+  --paper-2: #0e1a18;
+  --paper-3: #142220;
+  --card: #0e1a18;
+  --card-2: #142220;
 
-  --ink: #ece7f5;
-  --ink-soft: #c1b6d6;
-  --ink-faint: #978cab;   /* ≥4.5:1 на тёмных картах */
+  --ink: #e6f2ef;
+  --ink-soft: #b3c9c4;
+  --ink-faint: #8aa39d;
 
-  --line: #322843;
-  --line-soft: #271f36;
+  --line: #1e302c;
+  --line-soft: #172521;
 
-  --green: #a78bfa;
-  --green-deep: #8b5cf6;
-  --green-darker: #160f24;
-  --green-soft: rgba(167,139,250,.16);
+  --green: #2dd4bf;
+  --green-deep: #14b8a6;
+  --green-darker: #052420;
+  --green-soft: rgba(45,212,191,.15);
 
-  --gold: #d8b25a;
-  --gold-strong: #e0c173;
-  --gold-bright: #e7cb86;
-  --gold-soft: rgba(216,178,90,.16);
+  --gold: #38bdf8;
+  --gold-strong: #7dd3fc;
+  --gold-bright: #7dd3fc;
+  --gold-soft: rgba(56,189,248,.16);
 
   --ok: #4ade80;
   --ok-soft: rgba(74,222,128,.16);
-
-  --blue: #818cf8;
+  --blue: #38bdf8;
   --rose: #fb7185;
 
-  --primary-bg: #8b5cf6;
-  --primary-fg: #160f24;
-  --primary-bg-hover: #9b71f8;
+  --primary-bg: #14b8a6;
+  --primary-fg: #052420;
+  --primary-bg-hover: #19c7b4;
 
-  --topbar-bg: rgba(26,19,38,.82);
-  --elev-bg: rgba(26,19,38,.92);
+  --topbar-bg: rgba(14,26,24,.8);
+  --elev-bg: rgba(14,26,24,.92);
 
-  --grad-paper: linear-gradient(180deg, #120e1c 0%, #16101f 100%);
+  --grad-paper: linear-gradient(180deg, #08110f 0%, #0a1513 100%);
 
-  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 28px rgba(0,0,0,.45);
-  --shadow-lg: 0 14px 34px rgba(0,0,0,.5), 0 36px 80px rgba(0,0,0,.55);
-  --shadow-gold: 0 8px 26px rgba(216,178,90,.22);
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 28px rgba(0,0,0,.42);
+  --shadow-lg: 0 14px 34px rgba(0,0,0,.5), 0 36px 80px rgba(0,0,0,.5);
+  --shadow-gold: 0 8px 24px rgba(45,212,191,.2);
 
   --glass-bg: rgba(255,255,255,.05);
   --glass-border: rgba(255,255,255,.10);
@@ -144,7 +140,7 @@ body {
 }
 #app { min-height: 100vh; }
 
-h1, h2 { font-family: var(--serif); font-weight: 600; margin: 0; letter-spacing: -0.015em; color: var(--ink); line-height: 1.08; }
+h1, h2 { font-family: var(--serif); font-weight: 700; margin: 0; letter-spacing: -0.02em; color: var(--ink); line-height: 1.05; }
 h3, h4 { font-family: var(--sans); font-weight: 700; margin: 0; letter-spacing: -0.012em; color: var(--ink); }
 a { color: var(--green); text-decoration: none; transition: color .15s; }
 a:hover { color: var(--green-deep); }
@@ -269,9 +265,9 @@ tr:last-child td { border-bottom: none; }
 .row { display: flex; gap: 12px; align-items: center; }
 .spread { display: flex; justify-content: space-between; align-items: center; }
 .grid { display: grid; gap: 14px; }
-.page-head { margin-bottom: var(--s3); }
-.page-head h1 { font-size: 32px; }
-.page-head .sub { color: var(--ink-soft); margin: 6px 0 0; font-size: 14.5px; }
+.page-head { margin-bottom: var(--s4); }
+.page-head h1 { font-size: 40px; }
+.page-head .sub { color: var(--ink-soft); margin: 8px 0 0; font-size: 15px; }
 .rule { height: 1px; background: linear-gradient(90deg, transparent, var(--gold) 20%, var(--gold) 80%, transparent); opacity: .4; border: 0; margin: var(--s4) 0; }
 .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-strong); }
 [data-theme="dark"] .eyebrow { color: var(--gold-bright); }

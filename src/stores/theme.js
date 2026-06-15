@@ -10,7 +10,7 @@ const initial = saved || (prefersDark ? 'dark' : 'light')
 function apply(mode) {
   document.documentElement.setAttribute('data-theme', mode)
   const meta = document.querySelector('meta[name="theme-color"]')
-  if (meta) meta.setAttribute('content', mode === 'dark' ? '#120e1c' : '#2a1b4a')
+  if (meta) meta.setAttribute('content', mode === 'dark' ? '#08110f' : '#0f766e')
 }
 apply(initial)
 
