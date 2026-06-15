@@ -5,6 +5,7 @@ import { toasts } from '../stores/toast.js'
 import { date, CLIENT_STATUS, INTERACTION_TYPES, clientName, initials, formatPhoneRu, EMAIL_RE } from '../lib/format.js'
 import DataState from '../components/DataState.vue'
 import Modal from '../components/Modal.vue'
+import Icon from '../components/Icon.vue'
 
 const loading = ref(true)
 const error = ref('')
@@ -157,13 +158,16 @@ function tagText(t) { return typeof t === 'string' ? t : (t.tag || t.name) }
           <tbody>
             <tr v-for="c in items" :key="c.id">
               <td data-label="Клиент">
-                <div class="row" style="gap:10px">
-                  <span class="ava">{{ initials(clientName(c)) }}</span>
+                <div class="row" style="gap:11px">
+                  <span class="ava" :class="c.status">{{ initials(clientName(c)) }}</span>
                   <a href="#" @click.prevent="openDetail(c)"><strong>{{ clientName(c) }}</strong></a>
                 </div>
               </td>
-              <td class="muted" data-label="Контакты">{{ c.phone ? formatPhoneRu(c.phone) : '—' }}<br />{{ c.email || '' }}</td>
-              <td data-label="Статус"><span class="badge" :class="(CLIENT_STATUS[c.status]||{}).cls || 'gray'">{{ (CLIENT_STATUS[c.status]||{}).label || c.status }}</span></td>
+              <td data-label="Контакты">
+                <div class="contact"><Icon name="phone" :size="13" /> {{ c.phone ? formatPhoneRu(c.phone) : '—' }}</div>
+                <div class="contact muted" v-if="c.email"><Icon name="mail" :size="13" /> {{ c.email }}</div>
+              </td>
+              <td data-label="Статус"><span class="badge" :class="(CLIENT_STATUS[c.status]||{}).cls || 'gray'"><span class="dot" />{{ (CLIENT_STATUS[c.status]||{}).label || c.status }}</span></td>
               <td class="muted" data-label="Источник">{{ c.source || '—' }}</td>
               <td class="actions-cell" style="text-align:right;white-space:nowrap">
                 <button v-if="c.status === 'lead'" class="sm ghost" @click="convert(c)">В контакт</button>
@@ -211,6 +215,18 @@ function tagText(t) { return typeof t === 'string' ? t : (t.tag || t.name) }
     </Modal>
 
     <Modal v-if="detail" :title="clientName(detail)" wide @close="detail = null">
+      <div class="profile-head">
+        <span class="ava lg" :class="detail.status">{{ initials(clientName(detail)) }}</span>
+        <div class="ph-info">
+          <span class="badge" :class="(CLIENT_STATUS[detail.status]||{}).cls || 'gray'"><span class="dot" />{{ (CLIENT_STATUS[detail.status]||{}).label || detail.status }}</span>
+          <div class="ph-contacts">
+            <span v-if="detail.phone" class="ph-c"><Icon name="phone" :size="14" /> {{ formatPhoneRu(detail.phone) }}</span>
+            <span v-if="detail.email" class="ph-c"><Icon name="mail" :size="14" /> {{ detail.email }}</span>
+            <span v-if="detail.source" class="ph-c"><Icon name="tag" :size="14" /> {{ detail.source }}</span>
+          </div>
+        </div>
+        <button class="sm ghost ph-edit" @click="openEdit(detail); detail = null">Изменить</button>
+      </div>
       <DataState :loading="detailLoading" variant="block">
         <div class="dgrid">
           <div>
@@ -232,10 +248,11 @@ function tagText(t) { return typeof t === 'string' ? t : (t.tag || t.name) }
             </div>
             <ul class="timeline">
               <li v-for="(it,i) in interactions" :key="i">
-                <span class="muted">{{ date(it.occurred_at || it.created_at, true) }}</span>
-                <div>{{ INTERACTION_TYPES[it.type] || it.type }}: {{ it.summary || '—' }}</div>
+                <span class="tl-type">{{ INTERACTION_TYPES[it.type] || it.type }}</span>
+                <div class="tl-sum">{{ it.summary || '—' }}</div>
+                <span class="muted tl-date">{{ date(it.occurred_at || it.created_at, true) }}</span>
               </li>
-              <li v-if="!interactions.length" class="muted">пока пусто</li>
+              <li v-if="!interactions.length" class="muted tl-empty">пока пусто</li>
             </ul>
           </div>
           <div>
@@ -260,14 +277,35 @@ function tagText(t) { return typeof t === 'string' ? t : (t.tag || t.name) }
 
 <style scoped>
 .toolbar { display: flex; gap: 12px; padding: 12px 14px; }
-.ava { width: 30px; height: 30px; border-radius: 50%; background: var(--green-soft); color: var(--green-deep); display: grid; place-items: center; font-weight: 700; font-size: 11px; flex: 0 0 auto; }
+.ava { width: 32px; height: 32px; border-radius: 50%; background: var(--green-soft); color: var(--green-deep); display: grid; place-items: center; font-weight: 700; font-size: 11px; flex: 0 0 auto; box-shadow: 0 0 0 2px var(--card), 0 0 0 4px var(--line); }
+[data-theme="dark"] .ava { color: var(--green); }
+.ava.contact { box-shadow: 0 0 0 2px var(--card), 0 0 0 4px var(--ok); }
+.ava.lead { box-shadow: 0 0 0 2px var(--card), 0 0 0 4px var(--gold); }
+.contact { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+.contact :deep(svg) { color: var(--ink-faint); flex: 0 0 auto; }
+.contact + .contact { margin-top: 3px; }
 .req-hint { font-size: 12px; color: var(--gold-strong); margin-right: auto; align-self: center; }
-.dgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+
+/* Шапка профиля клиента */
+.profile-head { display: flex; align-items: center; gap: 16px; padding-bottom: 18px; margin-bottom: 6px; border-bottom: 1px solid var(--line-soft); }
+.ava.lg { width: 56px; height: 56px; font-size: 18px; }
+.ph-info { flex: 1; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.ph-contacts { display: flex; flex-wrap: wrap; gap: 14px; }
+.ph-c { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink-soft); }
+.ph-c :deep(svg) { color: var(--ink-faint); }
+.ph-edit { align-self: flex-start; }
+
+.dgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 18px; }
 .dgrid h4 { font-size: 15px; margin-bottom: 10px; }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; }
-.timeline { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
-.timeline li { font-size: 13px; border-left: 2px solid var(--line); padding-left: 12px; }
-.timeline .muted { font-size: 11.5px; }
+.timeline { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; }
+.timeline li { position: relative; font-size: 13px; border-left: 2px solid var(--line); padding: 4px 0 10px 14px; }
+.timeline li::before { content: ''; position: absolute; left: -5px; top: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--green); border: 2px solid var(--card); }
+.timeline .tl-type { font-weight: 700; font-size: 12px; color: var(--green-deep); }
+[data-theme="dark"] .timeline .tl-type { color: var(--green); }
+.timeline .tl-sum { font-size: 13px; }
+.timeline .tl-date { font-size: 11px; }
+.timeline .tl-empty::before { display: none; }
 .notes { list-style: none; padding: 0; margin: 0; display: grid; gap: 9px; }
-@media (max-width: 720px) { .dgrid { grid-template-columns: 1fr; } }
+@media (max-width: 720px) { .dgrid { grid-template-columns: 1fr; } .profile-head { flex-wrap: wrap; } }
 </style>
