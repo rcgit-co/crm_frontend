@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { auth } from '../stores/auth.js'
 import { toasts } from '../stores/toast.js'
 import BrandLogo from '../components/BrandLogo.vue'
+import Icon from '../components/Icon.vue'
 
 const router = useRouter()
 const form = reactive({ inn: '', login: '', password: '' })
@@ -47,10 +48,10 @@ async function submit() {
         </h1>
         <p>Спокойная, выверенная система для ежедневной работы агентства недвижимости.</p>
         <ul>
-          <li><span class="ic">◆</span> Канбан сделок и воронка продаж</li>
-          <li><span class="ic">◉</span> База клиентов и лидов</li>
-          <li><span class="ic">⌂</span> Каталог объектов и ЖК</li>
-          <li><span class="ic">◷</span> Календарь дел и показов</li>
+          <li><Icon name="deals" :size="18" class="ic" /> Канбан сделок и воронка продаж</li>
+          <li><Icon name="clients" :size="18" class="ic" /> База клиентов и лидов</li>
+          <li><Icon name="properties" :size="18" class="ic" /> Каталог объектов и ЖК</li>
+          <li><Icon name="activities" :size="18" class="ic" /> Календарь дел и показов</li>
         </ul>
         <div class="trust">
           <span class="tdot"></span> Данные агентства · защищённый доступ по ИНН

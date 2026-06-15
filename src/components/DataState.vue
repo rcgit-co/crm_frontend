@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch, onBeforeUnmount } from 'vue'
+import Icon from './Icon.vue'
 
 const props = defineProps({
   loading: Boolean,
@@ -59,7 +60,7 @@ onBeforeUnmount(() => clearTimeout(timer))
 
   <!-- Пустой результат поиска ≠ пустая база -->
   <div v-else-if="empty && searching" class="state">
-    <div class="ico">⌕</div>
+    <div class="ico"><Icon name="search" :size="22" /></div>
     <strong>Ничего не найдено<span v-if="searchQuery"> по запросу «{{ searchQuery }}»</span></strong>
     <span class="muted">Попробуйте изменить запрос или сбросить фильтры</span>
     <button class="sm" @click="emit('reset')">Сбросить фильтры</button>

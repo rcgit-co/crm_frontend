@@ -8,6 +8,7 @@ import { money, date, DEFAULT_STAGES } from '../lib/format.js'
 import DataState from '../components/DataState.vue'
 import Modal from '../components/Modal.vue'
 import MoneyInput from '../components/MoneyInput.vue'
+import Icon from '../components/Icon.vue'
 import DealDetail from '../components/DealDetail.vue'
 
 const loading = ref(true)
@@ -103,8 +104,8 @@ async function onDetailChanged() { deals.value = (await dealApi.list({ limit: 20
       <div class="board-wrap">
         <div class="edge left" :class="{ show: !atStart }"></div>
         <div class="edge right" :class="{ show: !atEnd }"></div>
-        <button v-if="!atStart" class="scroll-btn left" @click="scrollBoard(-1)" aria-label="Левее">‹</button>
-        <button v-if="!atEnd" class="scroll-btn right" @click="scrollBoard(1)" aria-label="Правее">›</button>
+        <button v-if="!atStart" class="scroll-btn left" @click="scrollBoard(-1)" aria-label="Левее"><Icon name="chevron-left" :size="20" /></button>
+        <button v-if="!atEnd" class="scroll-btn right" @click="scrollBoard(1)" aria-label="Правее"><Icon name="chevron-right" :size="20" /></button>
 
         <div class="board" ref="boardEl" @scroll="syncScroll">
           <div v-for="s in stages" :key="s.code" class="col" @dragover.prevent @drop="onDrop(s)">

@@ -5,6 +5,7 @@ import { auth } from '../stores/auth.js'
 import { toasts } from '../stores/toast.js'
 import { ROLES, initials } from '../lib/format.js'
 import BrandLogo from './BrandLogo.vue'
+import Icon from './Icon.vue'
 
 const route = useRoute()
 const mobileOpen = ref(false)
@@ -13,13 +14,13 @@ watch(() => route.path, () => { mobileOpen.value = false })
 const isDev = import.meta.env.DEV
 
 const nav = [
-  { to: '/dashboard', label: 'Обзор', icon: '◆', primary: true },
-  { to: '/deals', label: 'Сделки', icon: '⬡', primary: true },
-  { to: '/clients', label: 'Клиенты', icon: '◉', primary: true },
-  { to: '/properties', label: 'Объекты', icon: '⌂', primary: true },
-  { to: '/activities', label: 'Дела', icon: '◷' },
-  { to: '/employees', label: 'Сотрудники', icon: '☰', manage: true },
-  { to: '/agency', label: 'Агентство', icon: '✦', manage: true },
+  { to: '/dashboard', label: 'Обзор', icon: 'dashboard', primary: true },
+  { to: '/deals', label: 'Сделки', icon: 'deals', primary: true },
+  { to: '/clients', label: 'Клиенты', icon: 'clients', primary: true },
+  { to: '/properties', label: 'Объекты', icon: 'properties', primary: true },
+  { to: '/activities', label: 'Дела', icon: 'activities' },
+  { to: '/employees', label: 'Сотрудники', icon: 'employees', manage: true },
+  { to: '/agency', label: 'Агентство', icon: 'agency', manage: true },
 ]
 const visibleNav = computed(() => nav.filter((n) => !n.manage || auth.canManage))
 // Нижняя панель на телефоне: 4 основных раздела + «Ещё»
@@ -46,7 +47,7 @@ async function copyAgencyId() {
 
       <nav>
         <router-link v-for="(n, i) in visibleNav" :key="n.to" :to="n.to" class="navlink" active-class="active" :style="{ '--d': i * 40 + 'ms' }">
-          <span class="ic">{{ n.icon }}</span><span class="lbl">{{ n.label }}</span>
+          <Icon :name="n.icon" :size="19" class="ic" /><span class="lbl">{{ n.label }}</span>
         </router-link>
       </nav>
 
@@ -57,7 +58,7 @@ async function copyAgencyId() {
             <strong>{{ auth.displayName }}</strong>
             <span class="role">{{ ROLES[auth.role] || auth.role }}</span>
           </div>
-          <button class="logout" @click="auth.logout()" aria-label="Выйти" title="Выйти">⏻</button>
+          <button class="logout" @click="auth.logout()" aria-label="Выйти" title="Выйти"><Icon name="logout" :size="17" /></button>
         </div>
         <div v-if="isDev" class="dev-tag">dev · шлюз <code>/api → :8081</code></div>
       </div>
@@ -71,7 +72,7 @@ async function copyAgencyId() {
 
         <div v-if="auth.agencyId" class="agency-tag" :title="'ID агентства: ' + auth.agencyId">
           <router-link to="/agency" class="agency-link"><span class="muted">Агентство</span><code>{{ String(auth.agencyId).slice(0, 8) }}…</code></router-link>
-          <button class="copy" @click="copyAgencyId" aria-label="Скопировать ID агентства" title="Скопировать полный ID">⧉</button>
+          <button class="copy" @click="copyAgencyId" aria-label="Скопировать ID агентства" title="Скопировать полный ID"><Icon name="copy" :size="15" /></button>
         </div>
         <router-link v-else to="/agency" class="agency-tag warn">⚠ Агентство не привязано</router-link>
 
@@ -97,10 +98,10 @@ async function copyAgencyId() {
     <!-- Нижняя навигация (только телефон) -->
     <nav class="bottom-nav">
       <router-link v-for="n in bottomNav" :key="n.to" :to="n.to" class="bn-item" active-class="active">
-        <span class="bn-ic">{{ n.icon }}</span><span class="bn-lbl">{{ n.label }}</span>
+        <Icon :name="n.icon" :size="21" class="bn-ic" /><span class="bn-lbl">{{ n.label }}</span>
       </router-link>
       <button class="bn-item" @click="mobileOpen = true">
-        <span class="bn-ic">⋯</span><span class="bn-lbl">Ещё</span>
+        <Icon name="more" :size="21" class="bn-ic" /><span class="bn-lbl">Ещё</span>
       </button>
     </nav>
   </div>
