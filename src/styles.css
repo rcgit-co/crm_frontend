@@ -71,7 +71,7 @@
   --glass-border: rgba(236,231,245,.16);
 
   /* Шрифты */
-  --serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --sans: 'Inter', system-ui, -apple-system, sans-serif;
   --num: var(--sans);
 
