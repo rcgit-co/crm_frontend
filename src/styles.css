@@ -5,66 +5,70 @@
    ═══════════════════════════════════════════════════════════ */
 
 :root {
-  /* Поверхности (светлая тема) */
-  --paper: #eef0f3;
-  --paper-2: #e4e7ec;
-  --paper-3: #dce0e6;
+  /* Поверхности (светлая тема, лёгкий фиолетовый подтон) */
+  --paper: #f4f2fa;
+  --paper-2: #ebe7f5;
+  --paper-3: #e1dcf0;
   --card: #ffffff;
-  --card-2: #f6f8fa;
+  --card-2: #f8f6fc;
 
   /* Текст */
-  --ink: #0f172a;        /* slate-900 */
-  --ink-soft: #334155;   /* slate-700 */
-  --ink-faint: #586577;  /* ≥4.5:1 на светлом */
+  --ink: #1e1633;        /* глубокий фиолетовый-ink */
+  --ink-soft: #463a5f;
+  --ink-faint: #6b6285;  /* ≥4.5:1 на светлом */
 
   /* Линии */
-  --line: #e3e7ed;
-  --line-soft: #edf0f4;
+  --line: #e7e2f1;
+  --line-soft: #efebf7;
 
-  /* Бренд — петроль/тил */
-  --green: #0f766e;
-  --green-deep: #0b5d56;
-  --green-darker: #0a3f3a;
-  --green-soft: #d7efec;
+  /* Бренд — аметист */
+  --green: #7c3aed;
+  --green-deep: #6d28d9;
+  --green-darker: #2a1b4a;
+  --green-soft: #ece6fb;
 
-  /* Акцент — латунь/шампань */
+  /* Акцент — шампань */
   --gold: #b6892d;
   --gold-strong: #8a6420;
   --gold-bright: #d8b25a;
   --gold-soft: #f4ecd8;
 
-  /* Доп. сигналы */
-  --blue: #0369a1;
-  --rose: #b1493b;
-  --rose-deep: #8a2f24;
+  /* Семантический «успех» (статусы active/done — остаются зелёными) */
+  --ok: #15803d;
+  --ok-soft: #dcfce7;
 
-  /* Текст на тёмных зонах (сайдбар/хиро/логин — в обеих темах) */
-  --on-dark: #e9eef0;
-  --on-dark-soft: #a3b4b0;
-  --on-dark-faint: #6f827d;
+  /* Доп. сигналы */
+  --blue: #4f46e5;
+  --rose: #be123c;
+  --rose-deep: #9f1239;
+
+  /* Текст на тёмных (фиолетовых) зонах — в обеих темах */
+  --on-dark: #ece7f5;
+  --on-dark-soft: #b3a9c9;
+  --on-dark-faint: #7d7393;
 
   /* Кнопка primary */
-  --primary-bg: #0b5d56;
-  --primary-fg: #effaf7;
-  --primary-bg-hover: #094c46;
+  --primary-bg: #6d28d9;
+  --primary-fg: #f5f1ff;
+  --primary-bg-hover: #5b21b6;
 
   /* Слои интерфейса */
   --topbar-bg: rgba(255,255,255,.82);
   --elev-bg: rgba(255,255,255,.9);
 
   /* Градиенты */
-  --grad-hero: radial-gradient(130% 120% at 82% -10%, #145c52 0%, #0d3f39 48%, #0a2f2b 100%);
-  --grad-paper: linear-gradient(180deg, #f0f2f5 0%, #eaedf1 100%);
+  --grad-hero: radial-gradient(130% 120% at 82% -10%, #3a2566 0%, #241544 48%, #15102a 100%);
+  --grad-paper: linear-gradient(180deg, #f5f3fb 0%, #efebf7 100%);
   --grad-brass: linear-gradient(135deg, #e0c173 0%, #c8a24a 55%, #a9803c 100%);
 
   /* Тени */
-  --shadow: 0 1px 2px rgba(15,23,42,.05), 0 8px 24px rgba(15,23,42,.06);
-  --shadow-lg: 0 10px 28px rgba(15,23,42,.10), 0 30px 70px rgba(15,23,42,.12);
+  --shadow: 0 1px 2px rgba(30,22,51,.05), 0 8px 24px rgba(30,22,51,.07);
+  --shadow-lg: 0 10px 28px rgba(30,22,51,.10), 0 30px 70px rgba(30,22,51,.13);
   --shadow-gold: 0 8px 26px rgba(184,137,45,.28);
 
   /* Glass (для тёмных зон) */
   --glass-bg: rgba(255,255,255,.06);
-  --glass-border: rgba(233,238,240,.16);
+  --glass-border: rgba(236,231,245,.16);
 
   /* Шрифты */
   --serif: 'Fraunces', Georgia, 'Times New Roman', serif;
@@ -78,40 +82,43 @@
 }
 
 [data-theme="dark"] {
-  --paper: #0b0f14;
-  --paper-2: #141a21;
-  --paper-3: #1b232c;
-  --card: #141a21;
-  --card-2: #1b232c;
+  --paper: #120e1c;
+  --paper-2: #1b1528;
+  --paper-3: #241c33;
+  --card: #1a1326;
+  --card-2: #221932;
 
-  --ink: #e8edf2;
-  --ink-soft: #b6c2cd;
-  --ink-faint: #8a98a5;   /* ≥4.5:1 на тёмных картах */
+  --ink: #ece7f5;
+  --ink-soft: #c1b6d6;
+  --ink-faint: #978cab;   /* ≥4.5:1 на тёмных картах */
 
-  --line: #283039;
-  --line-soft: #20272f;
+  --line: #322843;
+  --line-soft: #271f36;
 
-  --green: #2dd4bf;
-  --green-deep: #14b8a6;
-  --green-darker: #07211f;
-  --green-soft: rgba(45,212,191,.14);
+  --green: #a78bfa;
+  --green-deep: #8b5cf6;
+  --green-darker: #160f24;
+  --green-soft: rgba(167,139,250,.16);
 
   --gold: #d8b25a;
   --gold-strong: #e0c173;
   --gold-bright: #e7cb86;
   --gold-soft: rgba(216,178,90,.16);
 
-  --blue: #38bdf8;
-  --rose: #f0857a;
+  --ok: #4ade80;
+  --ok-soft: rgba(74,222,128,.16);
 
-  --primary-bg: #14b8a6;
-  --primary-fg: #052420;
-  --primary-bg-hover: #19c7b4;
+  --blue: #818cf8;
+  --rose: #fb7185;
 
-  --topbar-bg: rgba(20,26,33,.82);
-  --elev-bg: rgba(20,26,33,.92);
+  --primary-bg: #8b5cf6;
+  --primary-fg: #160f24;
+  --primary-bg-hover: #9b71f8;
 
-  --grad-paper: linear-gradient(180deg, #0b0f14 0%, #0d121a 100%);
+  --topbar-bg: rgba(26,19,38,.82);
+  --elev-bg: rgba(26,19,38,.92);
+
+  --grad-paper: linear-gradient(180deg, #120e1c 0%, #16101f 100%);
 
   --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 28px rgba(0,0,0,.45);
   --shadow-lg: 0 14px 34px rgba(0,0,0,.5), 0 36px 80px rgba(0,0,0,.55);
@@ -241,8 +248,7 @@ input.bad:focus { box-shadow: 0 0 0 3px color-mix(in srgb, var(--rose) 22%, tran
   background: var(--paper-2); color: var(--ink-soft);
 }
 .badge .dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
-.badge.green { background: var(--green-soft); color: var(--green-deep); }
-[data-theme="dark"] .badge.green { color: var(--green); }
+.badge.green { background: var(--ok-soft); color: var(--ok); }
 .badge.gold  { background: var(--gold-soft); color: var(--gold-strong); }
 .badge.rose  { background: color-mix(in srgb, var(--rose) 16%, transparent); color: var(--rose); }
 .badge.blue  { background: color-mix(in srgb, var(--blue) 14%, transparent); color: var(--blue); }

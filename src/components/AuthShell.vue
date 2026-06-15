@@ -63,11 +63,11 @@ export default { props: { wide: Boolean } }
 </script>
 
 <style scoped>
-.auth { position: fixed; inset: 0; overflow: hidden; display: grid; place-items: center; background: #08201d; padding: 20px; }
-.scene { position: absolute; inset: 0; background: radial-gradient(130% 100% at 50% 0%, #1a5249 0%, #0d3a34 45%, #08211e 100%); }
+.auth { position: fixed; inset: 0; overflow: hidden; display: grid; place-items: center; background: #100b1c; padding: 20px; }
+.scene { position: absolute; inset: 0; background: radial-gradient(130% 100% at 50% 0%, #3a2566 0%, #241544 45%, #120c22 100%); }
 .aurora { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .55; transition: transform .3s cubic-bezier(.2,.7,.2,1); }
 .a1 { width: 520px; height: 520px; top: -160px; left: 8%; background: radial-gradient(circle, rgba(216,178,90,.5), transparent 65%); }
-.a2 { width: 600px; height: 600px; bottom: -260px; right: 4%; background: radial-gradient(circle, rgba(45,212,191,.4), transparent 65%); }
+.a2 { width: 600px; height: 600px; bottom: -260px; right: 4%; background: radial-gradient(circle, rgba(167,139,250,.45), transparent 65%); }
 .grid-lines {
   position: absolute; inset: -40px; transition: transform .3s cubic-bezier(.2,.7,.2,1);
   background-image: linear-gradient(rgba(216,178,90,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(216,178,90,.06) 1px, transparent 1px);
@@ -76,8 +76,8 @@ export default { props: { wide: Boolean } }
   -webkit-mask-image: radial-gradient(70% 60% at 50% 35%, #000, transparent 80%);
 }
 .skyline { position: absolute; left: -2%; right: -2%; bottom: 0; width: 104%; height: 46vh; min-height: 280px; transition: transform .3s cubic-bezier(.2,.7,.2,1); }
-.skyline .far rect { fill: #0a2a26; opacity: .7; }
-.skyline .near rect { fill: #061a17; }
+.skyline .far rect { fill: #2a1b47; opacity: .7; }
+.skyline .near rect { fill: #160e29; }
 .skyline .windows rect { fill: rgba(170,200,190,.10); }
 .skyline .windows rect.lit { fill: #e6c987; animation: twinkle 3.2s ease-in-out infinite alternate; }
 @keyframes twinkle { 0% { opacity: .35; } 100% { opacity: 1; } }
@@ -88,8 +88,8 @@ export default { props: { wide: Boolean } }
 .panel { position: relative; z-index: 2; width: 100%; max-width: 440px; transition: transform .3s cubic-bezier(.2,.7,.2,1); }
 .panel.wide { max-width: 560px; }
 .auth-card {
-  background: rgba(12, 32, 29, .55);
-  border: 1px solid rgba(236,228,211,.16);
+  background: rgba(26, 16, 42, .55);
+  border: 1px solid rgba(236,231,245,.16);
   border-radius: 22px; padding: 34px;
   backdrop-filter: blur(18px) saturate(1.1);
   box-shadow: 0 30px 80px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06);
