@@ -62,8 +62,8 @@ function due(a) { return a.due_at }
 
 <template>
   <div>
-    <div class="spread" style="margin-bottom:18px">
-      <div><h1 style="font-size:28px">Дела</h1><p class="muted">Звонки, встречи, показы и задачи</p></div>
+    <div class="page-head spread">
+      <div><h1>Дела</h1><p class="sub">Звонки, встречи, показы и задачи</p></div>
       <button class="primary" @click="showForm = true">+ Дело</button>
     </div>
 
@@ -72,7 +72,7 @@ function due(a) { return a.due_at }
     </div>
 
     <div class="card" style="overflow:hidden">
-      <DataState :loading="loading" :error="error" :empty="!items.length" empty-text="Дел нет">
+      <DataState :loading="loading" :error="error" :empty="!items.length" variant="list" empty-text="Дел нет">
         <ul class="list">
           <li v-for="a in items" :key="a.id" :class="{ done: isDone(a) }">
             <button class="check" :class="{ on: isDone(a) }" @click="!isDone(a) && complete(a)" :title="isDone(a) ? 'Выполнено' : 'Отметить выполненным'">✓</button>

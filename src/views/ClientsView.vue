@@ -2,7 +2,7 @@
 import { ref, reactive, onMounted, computed } from 'vue'
 import { clientApi } from '../api/client.js'
 import { toasts } from '../stores/toast.js'
-import { date, CLIENT_STATUS, INTERACTION_TYPES, clientName, initials } from '../lib/format.js'
+import { date, CLIENT_STATUS, INTERACTION_TYPES, clientName, initials, formatPhoneRu, EMAIL_RE } from '../lib/format.js'
 import DataState from '../components/DataState.vue'
 import Modal from '../components/Modal.vue'
 
@@ -16,6 +16,7 @@ const showForm = ref(false)
 const saving = ref(false)
 const editing = ref(null)
 const form = reactive({ last_name: '', first_name: '', middle_name: '', phone: '', email: '', source: '', status: 'lead' })
+const fe = ref({})   // ошибки по полям
 
 const detail = ref(null)
 const tags = ref([]); const notes = ref([]); const interactions = ref([])
@@ -32,6 +33,9 @@ async function load() {
 }
 onMounted(load)
 
+const searching = computed(() => !!(search.value.trim() || statusFilter.value))
+function resetFilters() { search.value = ''; statusFilter.value = '' }
+
 const items = computed(() => {
   const q = search.value.trim().toLowerCase()
   return all.value.filter((c) => {
@@ -44,20 +48,49 @@ const items = computed(() => {
 function openCreate() {
   editing.value = null
   Object.assign(form, { last_name: '', first_name: '', middle_name: '', phone: '', email: '', source: '', status: 'lead' })
+  fe.value = {}
   showForm.value = true
 }
 function openEdit(c) {
   editing.value = c
-  Object.assign(form, { last_name: c.last_name || '', first_name: c.first_name || '', middle_name: c.middle_name || '', phone: c.phone || '', email: c.email || '', source: c.source || '', status: c.status || 'lead' })
+  Object.assign(form, { last_name: c.last_name || '', first_name: c.first_name || '', middle_name: c.middle_name || '', phone: formatPhoneRu(c.phone) || '', email: c.email || '', source: c.source || '', status: c.status || 'lead' })
+  fe.value = {}
   showForm.value = true
 }
+
+// Маска телефона: оставляем только цифры, приводим к +7 (XXX) XXX-XX-XX.
+function onPhoneInput(e) {
+  form.phone = formatPhoneRu(e.target.value)
+  if (fe.value.phone) fe.value = { ...fe.value, phone: '' }
+}
+function phoneDigits() { return form.phone.replace(/\D/g, '') }
+function clearFieldError(field) { if (fe.value[field]) fe.value = { ...fe.value, [field]: '' } }
+
+function validate() {
+  const e = {}
+  if (!form.first_name.trim()) e.first_name = 'Имя обязательно'
+  // email проверяем по маске, если заполнен
+  if (form.email && !EMAIL_RE.test(form.email.trim())) e.email = 'Похоже на некорректный email (нужен @ и домен)'
+  // телефон: если заполнен — должен содержать 11 цифр (российский формат)
+  const d = phoneDigits()
+  if (form.phone.trim() && d.length !== 11) e.phone = 'Телефон: 11 цифр, формат +7 (XXX) XXX-XX-XX'
+  fe.value = e
+  return Object.keys(e).length === 0
+}
+
 async function save() {
+  if (!validate()) { toasts.err('Проверьте поля формы'); return }
   saving.value = true
   try {
-    if (editing.value) { await clientApi.update(editing.value.id, { ...form }); toasts.ok('Клиент обновлён') }
-    else { await clientApi.create({ ...form }); toasts.ok('Клиент добавлен') }
+    const payload = { ...form, phone: phoneDigits() ? '+' + phoneDigits() : '', email: form.email.trim() }
+    if (editing.value) { await clientApi.update(editing.value.id, payload); toasts.ok('Клиент обновлён') }
+    else { await clientApi.create(payload); toasts.ok('Клиент добавлен') }
     showForm.value = false; await load()
-  } catch (e) { toasts.err(e) } finally { saving.value = false }
+  } catch (e) {
+    const errs = e?.payload?.errors
+    if (errs && typeof errs === 'object') fe.value = { ...fe.value, ...errs }
+    toasts.err(e)
+  } finally { saving.value = false }
 }
 async function convert(c) {
   try { await clientApi.convert(c.id); toasts.ok('Лид → контакт'); await load() }
@@ -99,8 +132,8 @@ function tagText(t) { return typeof t === 'string' ? t : (t.tag || t.name) }
 
 <template>
   <div>
-    <div class="spread" style="margin-bottom:18px">
-      <div><h1 style="font-size:28px">Клиенты</h1><p class="muted">Лиды и контакты агентства</p></div>
+    <div class="page-head spread">
+      <div><h1>Клиенты</h1><p class="sub">Лиды и контакты агентства</p></div>
       <button class="primary" @click="openCreate">+ Клиент</button>
     </div>
 
@@ -114,7 +147,11 @@ function tagText(t) { return typeof t === 'string' ? t : (t.tag || t.name) }
     </div>
 
     <div class="card" style="margin-top:14px;overflow:hidden">
-      <DataState :loading="loading" :error="error" :empty="!items.length" empty-text="Клиентов нет">
+      <DataState
+        :loading="loading" :error="error" :empty="!items.length"
+        variant="table" empty-text="Клиентов нет — добавьте первого клиента"
+        :searching="searching" :search-query="search" @reset="resetFilters"
+      >
         <div class="table-scroll"><table>
           <thead><tr><th>Клиент</th><th>Контакты</th><th>Статус</th><th>Источник</th><th></th></tr></thead>
           <tbody>
@@ -125,7 +162,7 @@ function tagText(t) { return typeof t === 'string' ? t : (t.tag || t.name) }
                   <a href="#" @click.prevent="openDetail(c)"><strong>{{ clientName(c) }}</strong></a>
                 </div>
               </td>
-              <td class="muted">{{ c.phone || '—' }}<br />{{ c.email || '' }}</td>
+              <td class="muted">{{ c.phone ? formatPhoneRu(c.phone) : '—' }}<br />{{ c.email || '' }}</td>
               <td><span class="badge" :class="(CLIENT_STATUS[c.status]||{}).cls || 'gray'">{{ (CLIENT_STATUS[c.status]||{}).label || c.status }}</span></td>
               <td class="muted">{{ c.source || '—' }}</td>
               <td style="text-align:right;white-space:nowrap">
@@ -142,12 +179,24 @@ function tagText(t) { return typeof t === 'string' ? t : (t.tag || t.name) }
       <div class="grid" style="gap:14px">
         <div class="row" style="gap:12px">
           <div style="flex:1"><label>Фамилия</label><input v-model="form.last_name" /></div>
-          <div style="flex:1"><label>Имя *</label><input v-model="form.first_name" /></div>
+          <div style="flex:1">
+            <label>Имя *</label>
+            <input v-model="form.first_name" :class="{ bad: fe.first_name }" />
+            <small v-if="fe.first_name" class="fe">{{ fe.first_name }}</small>
+          </div>
         </div>
         <div><label>Отчество</label><input v-model="form.middle_name" /></div>
         <div class="row" style="gap:12px">
-          <div style="flex:1"><label>Телефон</label><input v-model="form.phone" placeholder="+7…" /></div>
-          <div style="flex:1"><label>Email</label><input v-model="form.email" /></div>
+          <div style="flex:1">
+            <label>Телефон</label>
+            <input :value="form.phone" @input="onPhoneInput" inputmode="tel" placeholder="+7 (___) ___-__-__" :class="{ bad: fe.phone }" />
+            <small v-if="fe.phone" class="fe">{{ fe.phone }}</small>
+          </div>
+          <div style="flex:1">
+            <label>Email</label>
+            <input v-model="form.email" type="email" placeholder="client@mail.ru" :class="{ bad: fe.email }" @input="clearFieldError('email')" />
+            <small v-if="fe.email" class="fe">{{ fe.email }}</small>
+          </div>
         </div>
         <div class="row" style="gap:12px">
           <div style="flex:1"><label>Статус</label><select v-model="form.status"><option value="lead">Лид</option><option value="contact">Контакт</option></select></div>
@@ -155,13 +204,14 @@ function tagText(t) { return typeof t === 'string' ? t : (t.tag || t.name) }
         </div>
       </div>
       <template #footer>
+        <span v-if="!form.first_name.trim()" class="req-hint">Укажите имя клиента, чтобы сохранить</span>
         <button class="ghost" @click="showForm = false">Отмена</button>
-        <button class="primary" :disabled="saving || !form.first_name" @click="save">{{ saving ? '…' : 'Сохранить' }}</button>
+        <button class="primary" :disabled="saving || !form.first_name.trim()" @click="save">{{ saving ? '…' : 'Сохранить' }}</button>
       </template>
     </Modal>
 
     <Modal v-if="detail" :title="clientName(detail)" wide @close="detail = null">
-      <DataState :loading="detailLoading">
+      <DataState :loading="detailLoading" variant="block">
         <div class="dgrid">
           <div>
             <h4>Теги</h4>
@@ -211,6 +261,7 @@ function tagText(t) { return typeof t === 'string' ? t : (t.tag || t.name) }
 <style scoped>
 .toolbar { display: flex; gap: 12px; padding: 12px 14px; }
 .ava { width: 30px; height: 30px; border-radius: 50%; background: var(--green-soft); color: var(--green-deep); display: grid; place-items: center; font-weight: 700; font-size: 11px; flex: 0 0 auto; }
+.req-hint { font-size: 12px; color: var(--gold-strong); margin-right: auto; align-self: center; }
 .dgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
 .dgrid h4 { font-size: 15px; margin-bottom: 10px; }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; }

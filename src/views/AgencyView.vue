@@ -87,8 +87,10 @@ async function addContract() {
 
 <template>
   <div>
-    <h1 style="font-size:28px;margin-bottom:4px">Агентство</h1>
-    <p class="muted" style="margin-bottom:20px">Реквизиты, брендинг и договоры</p>
+    <div class="page-head">
+      <h1>Агентство</h1>
+      <p class="sub">Реквизиты, брендинг и договоры</p>
+    </div>
 
     <!-- Только что создали — нужно перелогиниться, чтобы agency_id попал в токен -->
     <div v-if="justCreated" class="card pad rebind">

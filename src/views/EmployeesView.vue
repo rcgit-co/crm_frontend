@@ -33,6 +33,9 @@ async function load() {
 }
 onMounted(load)
 
+const searching = computed(() => !!(search.value.trim() || roleFilter.value))
+function resetFilters() { search.value = ''; roleFilter.value = '' }
+
 const items = computed(() => {
   const q = search.value.trim().toLowerCase()
   return all.value.filter((u) => {
@@ -116,8 +119,8 @@ async function toggleActive(u) {
 
 <template>
   <div>
-    <div class="spread" style="margin-bottom:18px">
-      <div><h1 style="font-size:28px">Сотрудники</h1><p class="muted">Команда агентства · вход по ИНН агентства + логин + пароль</p></div>
+    <div class="page-head spread">
+      <div><h1>Сотрудники</h1><p class="sub">Команда агентства · вход по ИНН агентства + логин + пароль</p></div>
       <button v-if="canManage" class="primary" @click="openCreate">+ Сотрудник</button>
     </div>
 
@@ -130,7 +133,11 @@ async function toggleActive(u) {
     </div>
 
     <div class="card" style="margin-top:14px;overflow:hidden">
-      <DataState :loading="loading" :error="error" :empty="!items.length" empty-text="Сотрудников нет">
+      <DataState
+        :loading="loading" :error="error" :empty="!items.length"
+        variant="table" empty-text="Сотрудников нет"
+        :searching="searching" :search-query="search" @reset="resetFilters"
+      >
         <div class="table-scroll"><table>
           <thead><tr><th>Сотрудник</th><th>Логин</th><th>Контакты</th><th>Роль</th><th>Статус</th><th></th></tr></thead>
           <tbody>

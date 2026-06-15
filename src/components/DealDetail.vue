@@ -7,6 +7,7 @@ import { auth } from '../stores/auth.js'
 import { toasts } from '../stores/toast.js'
 import { money, date, ACTIVITY_TYPES } from '../lib/format.js'
 import Modal from './Modal.vue'
+import MoneyInput from './MoneyInput.vue'
 
 const props = defineProps({ deal: Object, stages: Array })
 const emit = defineEmits(['close', 'changed'])
@@ -91,7 +92,7 @@ function eventLabel(ev) {
       <div class="block">
         <div class="row" style="gap:12px">
           <div style="flex:2"><label>Название</label><input v-model="d.title" /></div>
-          <div style="flex:1"><label>Сумма, ₽</label><input v-model="d.amount" type="number" /></div>
+          <div style="flex:1"><label>Сумма</label><MoneyInput v-model="d.amount" /></div>
           <div style="flex:1"><label>Стадия</label>
             <select :value="d.stage" @change="changeStage"><option v-for="s in stages" :key="s.code" :value="s.code">{{ s.title }}</option></select>
           </div>
@@ -106,24 +107,27 @@ function eventLabel(ev) {
         <div class="links">
           <div>
             <label>Клиент</label>
-            <select :value="d.client_id || ''" @change="changeClient">
+            <select :value="d.client_id || ''" @change="changeClient" :disabled="!refs.clients.length">
               <option value="">— не выбран —</option>
               <option v-for="c in refs.clients" :key="c.id" :value="c.id">{{ refs.clientLabel(c.id) }}</option>
             </select>
+            <small v-if="!refs.clients.length" class="hint">Сначала добавьте клиента</small>
           </div>
           <div>
             <label>Объект</label>
-            <select :value="d.property_id || ''" @change="changeProperty">
+            <select :value="d.property_id || ''" @change="changeProperty" :disabled="!refs.properties.length">
               <option value="">— не выбран —</option>
               <option v-for="p in refs.properties" :key="p.id" :value="p.id">{{ p.title }}</option>
             </select>
+            <small v-if="!refs.properties.length" class="hint">Сначала добавьте объект</small>
           </div>
           <div v-if="auth.canManage">
             <label>Ответственный</label>
-            <select :value="d.owner_user_id || ''" @change="changeOwner">
+            <select :value="d.owner_user_id || ''" @change="changeOwner" :disabled="!refs.employees.length">
               <option value="">— не назначен —</option>
               <option v-for="u in refs.employees" :key="u.id" :value="u.id">{{ refs.employeeLabel(u.id) }}</option>
             </select>
+            <small v-if="!refs.employees.length" class="hint">Сначала добавьте сотрудника</small>
           </div>
         </div>
       </div>

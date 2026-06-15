@@ -5,6 +5,7 @@ import { toasts } from '../stores/toast.js'
 import { money, PROPERTY_STATUS, PROPERTY_TYPES } from '../lib/format.js'
 import DataState from '../components/DataState.vue'
 import Modal from '../components/Modal.vue'
+import MoneyInput from '../components/MoneyInput.vue'
 
 const loading = ref(true)
 const error = ref('')
@@ -24,6 +25,9 @@ async function load() {
   } catch (e) { error.value = e.message } finally { loading.value = false }
 }
 onMounted(load)
+
+const searching = computed(() => Object.values(filters).some((v) => v !== '' && v != null))
+function resetFilters() { Object.assign(filters, { search: '', type: '', rooms: '', price_min: '', price_max: '', status: '' }) }
 
 const items = computed(() => {
   const q = filters.search.trim().toLowerCase()
@@ -69,8 +73,8 @@ async function setStatus(p, status) {
 
 <template>
   <div>
-    <div class="spread" style="margin-bottom:18px">
-      <div><h1 style="font-size:28px">Объекты</h1><p class="muted">Каталог недвижимости агентства</p></div>
+    <div class="page-head spread">
+      <div><h1>Объекты</h1><p class="sub">Каталог недвижимости агентства</p></div>
       <button class="primary" @click="openCreate">+ Объект</button>
     </div>
 
@@ -84,9 +88,13 @@ async function setStatus(p, status) {
     </div>
 
     <div style="margin-top:14px">
-      <DataState :loading="loading" :error="error" :empty="!items.length" empty-text="Объектов не найдено">
+      <DataState
+        :loading="loading" :error="error" :empty="!items.length"
+        variant="cards" empty-text="Объектов пока нет — добавьте первый объект"
+        :searching="searching" :search-query="filters.search" @reset="resetFilters"
+      >
         <div class="grid-cards">
-          <div v-for="p in items" :key="p.id" class="card prop">
+          <div v-for="(p, i) in items" :key="p.id" class="card prop interactive" v-reveal="{ delay: Math.min(i * 40, 240) }">
             <div class="ptop">
               <span class="badge" :class="(PROPERTY_STATUS[p.status]||{}).cls || 'gray'">{{ (PROPERTY_STATUS[p.status]||{}).label || p.status || '—' }}</span>
               <span class="muted ptype">{{ PROPERTY_TYPES[p.type] || p.type }}</span>
@@ -123,7 +131,7 @@ async function setStatus(p, status) {
           <div style="flex:1"><label>Этажей</label><input v-model="form.total_floors" type="number" /></div>
           <div style="flex:1"><label>Отделка</label><input v-model="form.finishing" placeholder="чистовая" /></div>
         </div>
-        <div><label>Цена, ₽</label><input v-model="form.price" type="number" /></div>
+        <div><label>Цена</label><MoneyInput v-model="form.price" /></div>
         <div><label>Адрес</label><input v-model="form.address" /></div>
         <div><label>Описание</label><textarea v-model="form.description" rows="3" /></div>
       </div>
