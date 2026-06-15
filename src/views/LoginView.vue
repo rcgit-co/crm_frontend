@@ -3,6 +3,7 @@ import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { auth } from '../stores/auth.js'
 import { toasts } from '../stores/toast.js'
+import BrandLogo from '../components/BrandLogo.vue'
 
 const router = useRouter()
 const form = reactive({ inn: '', login: '', password: '' })
@@ -39,12 +40,12 @@ async function submit() {
       <div class="layer glow" :style="{ transform: `translate(${px * -22}px, ${py * -22}px)` }"></div>
 
       <div class="art-inner" :style="{ transform: `translate(${px * 8}px, ${py * 8}px)` }">
-        <span class="mark">Р</span>
+        <BrandLogo variant="mark" tone="dark" :size="58" />
+        <span class="eyebrow art-eyebrow">CRM для агентств недвижимости</span>
         <h1>
-          <span class="serif">Реалти</span>
-          <span class="sans">CRM для агентств недвижимости</span>
+          Сделки, клиенты <br />и&nbsp;объекты — <em>в одном окне</em>
         </h1>
-        <p>Сделки, клиенты и объекты агентства — в одном спокойном, выверенном окне.</p>
+        <p>Спокойная, выверенная система для ежедневной работы агентства недвижимости.</p>
         <ul>
           <li><span class="ic">◆</span> Канбан сделок и воронка продаж</li>
           <li><span class="ic">◉</span> База клиентов и лидов</li>
@@ -93,7 +94,7 @@ async function submit() {
 .art {
   position: relative; overflow: hidden;
   background: var(--grad-hero);
-  color: #cfe0d9; display: grid; place-items: center; padding: 40px;
+  color: var(--on-dark-soft); display: grid; place-items: center; padding: 40px;
 }
 .layer { position: absolute; inset: -40px; pointer-events: none; transition: transform .25s cubic-bezier(.2,.7,.2,1); }
 .grid-lines {
@@ -109,16 +110,15 @@ async function submit() {
     radial-gradient(40% 40% at 22% 22%, rgba(216,178,90,.30), transparent 70%),
     radial-gradient(36% 36% at 82% 78%, rgba(31,95,83,.55), transparent 70%);
 }
-.art-inner { position: relative; max-width: 380px; transition: transform .25s cubic-bezier(.2,.7,.2,1); z-index: 1; }
-.art-inner .mark { display: inline-grid; place-items: center; width: 50px; height: 50px; border-radius: 13px; background: var(--grad-brass); color: var(--green-darker); font-family: var(--serif); font-weight: 700; font-size: 28px; box-shadow: 0 6px 22px rgba(216,178,90,.4); }
-.art-inner h1 { color: #fff; margin: 22px 0 14px; display: flex; flex-direction: column; gap: 4px; }
-.art-inner h1 .serif { font-family: var(--serif); font-size: 46px; line-height: 1; }
-.art-inner h1 .sans { font-family: var(--sans); font-weight: 600; font-size: 17px; color: #a9cabe; letter-spacing: .005em; }
-.art-inner p { font-size: 16px; line-height: 1.55; color: #b6d0c6; }
+.art-inner { position: relative; max-width: 410px; transition: transform .25s cubic-bezier(.2,.7,.2,1); z-index: 1; }
+.art-eyebrow { display: block; margin: 26px 0 14px; color: var(--gold-bright); }
+.art-inner h1 { color: #fff; margin: 0 0 16px; font-size: 44px; line-height: 1.08; font-weight: 700; }
+.art-inner h1 em { font-style: italic; color: var(--gold-bright); font-weight: 600; }
+.art-inner p { font-size: 16px; line-height: 1.55; color: var(--on-dark-soft); }
 .art-inner ul { list-style: none; padding: 0; margin: 28px 0 0; display: grid; gap: 13px; }
-.art-inner li { font-size: 15px; color: #d8e6e0; display: flex; align-items: center; gap: 11px; }
+.art-inner li { font-size: 15px; color: var(--on-dark); display: flex; align-items: center; gap: 11px; }
 .art-inner li .ic { color: var(--gold-bright); width: 18px; text-align: center; }
-.trust { margin-top: 30px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.12); font-size: 12.5px; color: #9fc4b8; display: flex; align-items: center; gap: 9px; }
+.trust { margin-top: 30px; padding-top: 18px; border-top: 1px solid rgba(236,228,211,.14); font-size: 12.5px; color: var(--on-dark-soft); display: flex; align-items: center; gap: 9px; }
 .tdot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold-bright); box-shadow: 0 0 0 0 rgba(216,178,90,.6); animation: trust-pulse 2.4s infinite; }
 @keyframes trust-pulse { 0% { box-shadow: 0 0 0 0 rgba(216,178,90,.55); } 70% { box-shadow: 0 0 0 8px rgba(216,178,90,0); } 100% { box-shadow: 0 0 0 0 rgba(216,178,90,0); } }
 

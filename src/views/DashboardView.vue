@@ -41,42 +41,47 @@ const maxCount = () => Math.max(1, ...funnel.value.map((r) => Number(r.count) ||
 const funnelTotal = computed(() => funnel.value.reduce((s, r) => s + (Number(r.amount) || 0), 0))
 const firstName = computed(() => (auth.displayName || '').trim().split(/\s+/).slice(-1)[0] || auth.displayName)
 const moneyFmt = (n) => groupDigits(Math.round(n)) + ' ₽'
+const todayLabel = computed(() => {
+  const s = new Date().toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' })
+  return s.charAt(0).toUpperCase() + s.slice(1)
+})
+const stats = computed(() => [
+  { to: '/deals', label: 'Активные сделки', value: counts.value.deals },
+  { to: '/clients', label: 'Клиенты и лиды', value: counts.value.clients },
+  { to: '/properties', label: 'Объекты в каталоге', value: counts.value.properties },
+])
 </script>
 
 <template>
-  <div>
-    <div class="page-head">
-      <h1>Здравствуйте, {{ firstName }}</h1>
-      <p class="sub">Сводка по агентству на сегодня</p>
-    </div>
+  <div class="dash">
+    <!-- ——— Тёмный хиро ——— -->
+    <header class="hero">
+      <div class="hero-grid"></div>
+      <div class="hero-glow"></div>
+      <div class="hero-inner">
+        <span class="eyebrow hero-eyebrow">Панель агентства · {{ todayLabel }}</span>
+        <h1>Здравствуйте, {{ firstName }}</h1>
+        <p class="hero-sub">Сводка по сделкам, клиентам и объектам на сегодня.</p>
 
-    <DataState :loading="loading" variant="kpis">
-      <div class="kpis">
-        <router-link to="/deals" class="card kpi interactive" v-reveal>
-          <span class="klabel muted">Сделки</span>
-          <strong><AnimatedNumber :value="counts.deals" /></strong>
-          <span class="kgo">Открыть доску →</span>
-        </router-link>
-        <router-link to="/clients" class="card kpi interactive" v-reveal="{ delay: 80 }">
-          <span class="klabel muted">Клиенты</span>
-          <strong><AnimatedNumber :value="counts.clients" /></strong>
-          <span class="kgo">База клиентов →</span>
-        </router-link>
-        <router-link to="/properties" class="card kpi interactive" v-reveal="{ delay: 160 }">
-          <span class="klabel muted">Объекты</span>
-          <strong><AnimatedNumber :value="counts.properties" /></strong>
-          <span class="kgo">Каталог →</span>
-        </router-link>
+        <div class="hero-stats">
+          <router-link v-for="(s, i) in stats" :key="s.to" :to="s.to" class="glass stat" v-reveal="{ delay: i * 90 }">
+            <span class="stat-label">{{ s.label }}</span>
+            <strong class="num"><AnimatedNumber :value="s.value" /></strong>
+            <span class="stat-go">Открыть →</span>
+          </router-link>
+        </div>
       </div>
+    </header>
 
-      <!-- Сигнатурный «счёт»: сумма по воронке, текстура финансовых линий -->
+    <DataState :loading="loading" variant="block">
+      <!-- ——— Сигнатурный «счёт» ——— -->
       <section class="card ledger" v-reveal>
         <div class="ledger-bg"></div>
         <div class="ledger-head">
-          <span class="muted">Сумма сделок в воронке</span>
+          <span class="eyebrow">Сумма сделок в воронке</span>
           <span class="badge gold">воронка продаж</span>
         </div>
-        <div class="ledger-total">
+        <div class="ledger-total num">
           <AnimatedNumber :value="funnelTotal" :format="moneyFmt" />
         </div>
         <div class="ledger-rows">
@@ -84,7 +89,7 @@ const moneyFmt = (n) => groupDigits(Math.round(n)) + ' ₽'
             <span class="lname">{{ r.label }}</span>
             <span class="ldots"></span>
             <span class="lcount">{{ r.count || 0 }} шт.</span>
-            <span class="lamount">{{ r.amount ? money(r.amount) : '—' }}</span>
+            <span class="lamount num">{{ r.amount ? money(r.amount) : '—' }}</span>
           </div>
         </div>
       </section>
@@ -96,8 +101,8 @@ const moneyFmt = (n) => groupDigits(Math.round(n)) + ' ₽'
             <div v-for="(r,i) in funnel" :key="i" class="frow">
               <span class="flabel">{{ r.label }}</span>
               <div class="ftrack"><div class="ffill" :style="{ width: ((Number(r.count)||0) / maxCount() * 100) + '%' }" /></div>
-              <span class="fcount">{{ r.count || 0 }}</span>
-              <span class="famount muted">{{ r.amount ? money(r.amount) : '' }}</span>
+              <span class="fcount num">{{ r.count || 0 }}</span>
+              <span class="famount muted num">{{ r.amount ? money(r.amount) : '' }}</span>
             </div>
           </div>
         </section>
@@ -119,26 +124,45 @@ const moneyFmt = (n) => groupDigits(Math.round(n)) + ' ₽'
 </template>
 
 <style scoped>
-.kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: var(--s3); }
-.kpi { padding: 22px 24px; display: flex; flex-direction: column; gap: 7px; color: var(--ink); }
-.kpi strong { font-family: var(--serif); font-size: 40px; line-height: 1; font-variant-numeric: tabular-nums; }
-.klabel { font-size: 13px; }
-.kgo { font-size: 13px; font-weight: 600; color: var(--green); }
+/* ——— Хиро ——— */
+.hero {
+  position: relative; overflow: hidden; border-radius: var(--radius-lg);
+  background: var(--grad-hero); color: var(--on-dark);
+  padding: 40px 44px 30px; margin-bottom: var(--s4);
+  box-shadow: var(--shadow-lg);
+}
+.hero-grid {
+  position: absolute; inset: 0; pointer-events: none; opacity: .5;
+  background-image:
+    linear-gradient(rgba(200,162,74,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,162,74,.06) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(80% 90% at 80% 0%, #000 30%, transparent 85%);
+  -webkit-mask-image: radial-gradient(80% 90% at 80% 0%, #000 30%, transparent 85%);
+}
+.hero-glow { position: absolute; top: -120px; right: -60px; width: 360px; height: 360px; border-radius: 50%; background: radial-gradient(circle, rgba(200,162,74,.22), transparent 65%); pointer-events: none; }
+.hero-inner { position: relative; z-index: 1; }
+.hero-eyebrow { color: var(--gold-bright); }
+.hero h1 { color: #fff; font-size: 38px; margin: 12px 0 8px; }
+.hero-sub { color: var(--on-dark-soft); font-size: 15px; margin: 0 0 26px; }
+.hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.stat { padding: 18px 20px; display: flex; flex-direction: column; gap: 7px; color: var(--on-dark); transition: transform .2s, border-color .2s, background .2s; }
+.stat:hover { transform: translateY(-3px); border-color: rgba(200,162,74,.45); background: rgba(255,255,255,.09); }
+.stat-label { font-size: 12.5px; color: var(--on-dark-soft); }
+.stat strong { font-size: 38px; line-height: 1; color: #fff; }
+.stat-go { font-size: 12px; font-weight: 600; color: var(--gold-bright); }
 
 /* ——— Сигнатурный блок «счёт» ——— */
 .ledger { position: relative; overflow: hidden; padding: 26px 28px; margin-bottom: var(--s3); }
-.ledger-bg {
-  position: absolute; inset: 0; pointer-events: none; opacity: .5;
-  background-image: repeating-linear-gradient(180deg, transparent, transparent 31px, var(--line-soft) 31px, var(--line-soft) 32px);
-}
+.ledger-bg { position: absolute; inset: 0; pointer-events: none; opacity: .5; background-image: repeating-linear-gradient(180deg, transparent, transparent 31px, var(--line-soft) 31px, var(--line-soft) 32px); }
 .ledger-head { position: relative; display: flex; justify-content: space-between; align-items: center; }
-.ledger-total { position: relative; font-family: var(--serif); font-size: 46px; color: var(--green-deep); margin: 6px 0 18px; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.ledger-total { position: relative; font-size: 46px; color: var(--green-deep); margin: 8px 0 18px; font-weight: 600; }
 .ledger-rows { position: relative; display: grid; gap: 2px; }
 .lrow { display: flex; align-items: baseline; gap: 10px; padding: 7px 0; font-size: 13.5px; }
 .lname { font-weight: 600; }
 .ldots { flex: 1; border-bottom: 1px dotted var(--line); transform: translateY(-3px); }
 .lcount { color: var(--ink-faint); font-size: 12.5px; }
-.lamount { font-family: var(--serif); font-size: 15px; color: var(--ink); min-width: 130px; text-align: right; font-variant-numeric: tabular-nums; }
+.lamount { font-size: 15px; color: var(--ink); min-width: 130px; text-align: right; font-weight: 500; }
 
 .two-col { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; }
 .pad { padding: 22px 24px; }
@@ -153,5 +177,16 @@ const moneyFmt = (n) => groupDigits(Math.round(n)) + ' ₽'
 .acts li { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; font-size: 13.5px; }
 .atitle { font-weight: 500; }
 .empty { padding: 28px 0; text-align: center; }
-@media (max-width: 900px) { .kpis, .two-col { grid-template-columns: 1fr; } .ledger-total { font-size: 36px; } .lamount { min-width: 96px; } }
+
+@media (max-width: 900px) {
+  .hero { padding: 28px 22px 22px; }
+  .hero h1 { font-size: 30px; }
+  .hero-stats { grid-template-columns: 1fr; gap: 12px; }
+  .stat { flex-direction: row; align-items: baseline; justify-content: space-between; }
+  .stat strong { font-size: 30px; }
+  .stat-go { display: none; }
+  .two-col { grid-template-columns: 1fr; }
+  .ledger-total { font-size: 34px; }
+  .lamount { min-width: 96px; }
+}
 </style>

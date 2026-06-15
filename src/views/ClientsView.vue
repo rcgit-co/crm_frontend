@@ -152,20 +152,20 @@ function tagText(t) { return typeof t === 'string' ? t : (t.tag || t.name) }
         variant="table" empty-text="Клиентов нет — добавьте первого клиента"
         :searching="searching" :search-query="search" @reset="resetFilters"
       >
-        <div class="table-scroll"><table>
+        <div class="table-scroll table-cards"><table>
           <thead><tr><th>Клиент</th><th>Контакты</th><th>Статус</th><th>Источник</th><th></th></tr></thead>
           <tbody>
             <tr v-for="c in items" :key="c.id">
-              <td>
+              <td data-label="Клиент">
                 <div class="row" style="gap:10px">
                   <span class="ava">{{ initials(clientName(c)) }}</span>
                   <a href="#" @click.prevent="openDetail(c)"><strong>{{ clientName(c) }}</strong></a>
                 </div>
               </td>
-              <td class="muted">{{ c.phone ? formatPhoneRu(c.phone) : '—' }}<br />{{ c.email || '' }}</td>
-              <td><span class="badge" :class="(CLIENT_STATUS[c.status]||{}).cls || 'gray'">{{ (CLIENT_STATUS[c.status]||{}).label || c.status }}</span></td>
-              <td class="muted">{{ c.source || '—' }}</td>
-              <td style="text-align:right;white-space:nowrap">
+              <td class="muted" data-label="Контакты">{{ c.phone ? formatPhoneRu(c.phone) : '—' }}<br />{{ c.email || '' }}</td>
+              <td data-label="Статус"><span class="badge" :class="(CLIENT_STATUS[c.status]||{}).cls || 'gray'">{{ (CLIENT_STATUS[c.status]||{}).label || c.status }}</span></td>
+              <td class="muted" data-label="Источник">{{ c.source || '—' }}</td>
+              <td class="actions-cell" style="text-align:right;white-space:nowrap">
                 <button v-if="c.status === 'lead'" class="sm ghost" @click="convert(c)">В контакт</button>
                 <button class="sm ghost" @click="openEdit(c)">Изм.</button>
               </td>

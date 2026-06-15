@@ -170,13 +170,13 @@ async function onDetailChanged() { deals.value = (await dealApi.list({ limit: 20
 .board { display: flex; gap: 14px; overflow-x: auto; padding: 4px 4px 14px; align-items: flex-start; scroll-padding: 14px; }
 .col { flex: 0 0 286px; background: var(--paper-2); border: 1px solid var(--line); border-radius: 14px; padding: 13px; min-height: 120px; }
 .col-head { display: flex; justify-content: space-between; align-items: center; }
-.ctitle { font-family: var(--serif); font-weight: 600; font-size: 15px; }
+.ctitle { font-family: var(--sans); font-weight: 700; font-size: 14.5px; letter-spacing: -.01em; }
 .col-sum { font-size: 12px; margin-top: 2px; }
 .cards { margin-top: 12px; display: grid; gap: 9px; min-height: 40px; }
 .deal { background: var(--card); border: 1px solid var(--line); border-radius: 11px; padding: 13px; cursor: pointer; box-shadow: var(--shadow); transition: transform .14s cubic-bezier(.2,.7,.2,1), box-shadow .16s, border-color .16s; }
 .deal:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); border-color: var(--gold); }
 .dtitle { font-weight: 600; font-size: 13.5px; line-height: 1.35; }
-.damount { font-family: var(--serif); font-size: 18px; color: var(--green-deep); margin: 7px 0; font-variant-numeric: tabular-nums; }
+.damount { font-family: var(--num); font-weight: 600; font-size: 18px; color: var(--green-deep); margin: 7px 0; font-variant-numeric: tabular-nums; }
 .chips { display: flex; flex-direction: column; gap: 4px; margin-bottom: 6px; }
 .chip { font-size: 11px; padding: 2px 7px; border-radius: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 .chip.client { background: var(--green-soft); color: var(--green-deep); }

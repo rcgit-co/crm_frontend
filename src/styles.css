@@ -1,51 +1,62 @@
 :root {
-  /* ——— Поверхности: тёплые кремовые / белые ——— */
-  --paper: #f5f1e8;        /* фон приложения, кремовый */
-  --paper-2: #ece6d8;      /* углубление, разделители зон */
-  --paper-3: #e4ddcc;      /* самый тёплый оттенок для контраста зон */
-  --card: #fffdf8;         /* карточки, тёплый белый */
-  --card-2: #fbf8f0;       /* вторичная поверхность карточки */
+  /* ═══════════ EDITORIAL DEEP ═══════════
+     Светлые рабочие поверхности (фарфор) + драматичные тёмные зоны
+     (полуночный тил) + акцент шампань-золото. JPL-editorial premium. */
 
-  /* ——— Чернила: глубокий чёрный → читаемый серый ——— */
-  --ink: #15201b;          /* основной текст, почти чёрный с петролью */
-  --ink-soft: #3a443d;     /* вторичный текст */
-  --ink-faint: #5d665e;    /* подписи — затемнено до контраста ≥ 4.5:1 на кремовом */
+  /* ——— Светлые поверхности (рабочая зона) ——— */
+  --paper: #f4efe6;        /* канвас приложения — фарфор */
+  --paper-2: #ede6d8;      /* углубление / разделители */
+  --paper-3: #e5ddcc;      /* самый тёплый оттенок */
+  --card: #fcfaf4;         /* карточки */
+  --card-2: #f7f2e8;       /* вторичная поверхность */
+
+  /* ——— Чернила ——— */
+  --ink: #14201c;          /* основной текст, почти чёрный с тилом */
+  --ink-soft: #43504a;
+  --ink-faint: #6a726b;    /* подписи, контраст ≥ 4.5:1 на фарфоре */
 
   /* ——— Линии ——— */
-  --line: #ddd6c6;
-  --line-soft: #e8e2d4;
+  --line: #e2dacb;
+  --line-soft: #ece6d9;
 
-  /* ——— Петроль (бренд, доверие) ——— */
-  --green: #1f5f53;
-  --green-deep: #143f37;
-  --green-darker: #0e2f29;
-  --green-soft: #e2ede8;
+  /* ——— Бренд: полуночный тил (тёмные зоны) ——— */
+  --green: #1c574c;        /* средний тил (акценты, ссылки) */
+  --green-deep: #0e2a2a;   /* полуночный тил — сайдбар/хиро */
+  --green-darker: #0a201f; /* глубочайший */
+  --green-soft: #e3ebe6;   /* мягкая подложка на свету */
 
-  /* ——— Латунь (премиальный акцент) ——— */
-  --gold: #a9803c;
-  --gold-strong: #8a6420;
-  --gold-bright: #d8b25a;
-  --gold-soft: #f3ead5;
+  /* ——— Шампань-золото (премиальный акцент) ——— */
+  --gold: #c8a24a;
+  --gold-strong: #97741f;  /* для текста на свету (контраст) */
+  --gold-bright: #e0c173;
+  --gold-soft: #f2e9d4;
+
+  /* ——— Текст на тёмных зонах ——— */
+  --on-dark: #ece4d3;      /* тёплый кремовый */
+  --on-dark-soft: #a9bcb4; /* приглушённый на тёмном */
+  --on-dark-faint: #6f857d;
 
   /* ——— Сигналы ——— */
   --rose: #b1493b;
   --rose-deep: #8a2f24;
   --blue: #3a6ea5;
 
-  /* ——— Градиенты для мягких переходов между зонами ——— */
-  --grad-hero: radial-gradient(120% 120% at 80% 0%, #1c574c 0%, #143f37 45%, #0e2f29 100%);
-  --grad-paper: linear-gradient(180deg, #f7f3ea 0%, #f3eee2 100%);
-  --grad-brass: linear-gradient(135deg, #d8b25a 0%, #a9803c 100%);
+  /* ——— Градиенты ——— */
+  --grad-hero: radial-gradient(130% 120% at 82% -10%, #1a4942 0%, #0e2a2a 48%, #0a201f 100%);
+  --grad-paper: linear-gradient(180deg, #f6f1e8 0%, #f1ebde 100%);
+  --grad-brass: linear-gradient(135deg, #e0c173 0%, #c8a24a 55%, #a9803c 100%);
 
   /* ——— Шрифты ——— */
-  --serif: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
-  --sans: 'Public Sans', system-ui, -apple-system, sans-serif;
+  --serif: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;   /* editorial-заголовки */
+  --sans: 'Manrope', system-ui, -apple-system, sans-serif;             /* premium grotesk */
+  --num: 'Space Grotesk', var(--sans);                                  /* цифры/финансы */
 
   /* ——— Радиусы и тени ——— */
-  --radius: 12px;
-  --radius-lg: 18px;
-  --shadow: 0 1px 2px rgba(20,33,28,.05), 0 6px 20px rgba(20,33,28,.06);
-  --shadow-lg: 0 8px 24px rgba(20,33,28,.10), 0 24px 60px rgba(20,33,28,.10);
+  --radius: 14px;
+  --radius-lg: 20px;
+  --shadow: 0 1px 2px rgba(14,42,42,.05), 0 8px 24px rgba(14,42,42,.06);
+  --shadow-lg: 0 10px 28px rgba(14,42,42,.10), 0 30px 70px rgba(14,42,42,.12);
+  --shadow-gold: 0 8px 26px rgba(200,162,74,.30);
 
   /* ——— Модульная сетка отступов (8px) ——— */
   --s1: 8px; --s2: 16px; --s3: 24px; --s4: 32px; --s5: 48px; --s6: 64px; --s7: 96px;
@@ -65,10 +76,12 @@ body {
 }
 #app { min-height: 100vh; }
 
-h1, h2, h3, h4 { font-family: var(--serif); font-weight: 600; margin: 0; letter-spacing: -0.015em; color: var(--ink); }
-h1 { line-height: 1.08; }
+/* H1/H2 — благородный serif; H3/H4 — крепкий grotesk для плотного UI */
+h1, h2 { font-family: var(--serif); font-weight: 700; margin: 0; letter-spacing: -0.01em; color: var(--ink); line-height: 1.07; }
+h3, h4 { font-family: var(--sans); font-weight: 700; margin: 0; letter-spacing: -0.012em; color: var(--ink); }
 a { color: var(--green); text-decoration: none; transition: color .15s; }
 a:hover { color: var(--green-deep); }
+.num { font-family: var(--num); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
 
 /* ===================== Кнопки ===================== */
 button {
@@ -79,7 +92,7 @@ button {
   background: var(--card);
   color: var(--ink);
   padding: 9px 16px;
-  border-radius: 10px;
+  border-radius: 11px;
   font-size: 13px;
   transition: transform .14s ease, box-shadow .18s ease, background .15s ease, border-color .15s ease, color .15s ease;
 }
@@ -88,17 +101,19 @@ button:active:not(:disabled) { transform: translateY(0); }
 button:disabled { opacity: .5; cursor: not-allowed; }
 button:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--gold-soft); }
 
-button.primary { background: var(--green); border-color: var(--green); color: #fff; position: relative; }
+button.primary { background: var(--green-deep); border-color: var(--green-deep); color: var(--on-dark); position: relative; }
 button.primary:hover:not(:disabled) {
-  background: var(--green-deep);
-  box-shadow: 0 6px 18px rgba(20,63,55,.28);
-  animation: brass-pulse 1.6s ease-out infinite;
+  background: #123734;
+  box-shadow: var(--shadow-gold);
+  animation: brass-pulse 1.7s ease-out infinite;
 }
 @keyframes brass-pulse {
-  0%   { box-shadow: 0 6px 18px rgba(20,63,55,.28), 0 0 0 0 rgba(216,178,90,.55); }
-  70%  { box-shadow: 0 6px 18px rgba(20,63,55,.28), 0 0 0 9px rgba(216,178,90,0); }
-  100% { box-shadow: 0 6px 18px rgba(20,63,55,.28), 0 0 0 0 rgba(216,178,90,0); }
+  0%   { box-shadow: 0 6px 18px rgba(14,42,42,.22), 0 0 0 0 rgba(200,162,74,.55); }
+  70%  { box-shadow: 0 6px 18px rgba(14,42,42,.22), 0 0 0 9px rgba(200,162,74,0); }
+  100% { box-shadow: 0 6px 18px rgba(14,42,42,.22), 0 0 0 0 rgba(200,162,74,0); }
 }
+button.gold { background: var(--grad-brass); border-color: transparent; color: #23180a; }
+button.gold:hover:not(:disabled) { box-shadow: var(--shadow-gold); }
 button.ghost { background: transparent; border-color: transparent; color: var(--ink-soft); }
 button.ghost:hover:not(:disabled) { background: var(--paper-2); transform: none; }
 button.danger { color: var(--rose); border-color: transparent; background: transparent; }
@@ -111,7 +126,7 @@ input, textarea, select {
   background: var(--card);
   color: var(--ink);
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: 11px;
   padding: 10px 12px;
   font-size: 14px;
   width: 100%;
@@ -133,9 +148,16 @@ input.bad:focus { box-shadow: 0 0 0 3px #f6e3df; }
   border-radius: var(--radius);
   box-shadow: var(--shadow);
 }
-/* Карточки-объекты, реагирующие на наведение (поднятие + тень + лёгкий скейл) */
-.card.interactive { transition: transform .2s cubic-bezier(.2,.7,.2,1), box-shadow .2s ease, border-color .2s ease; cursor: pointer; }
+.card.interactive { transition: transform .22s cubic-bezier(.2,.7,.2,1), box-shadow .22s ease, border-color .22s ease; cursor: pointer; }
 .card.interactive:hover { transform: translateY(-4px) scale(1.006); box-shadow: var(--shadow-lg); border-color: var(--gold); }
+
+/* Стеклянная карточка для тёмных зон (хиро-статы) */
+.glass {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(236,228,211,.16);
+  border-radius: var(--radius);
+  backdrop-filter: blur(8px);
+}
 
 /* ===================== Бейджи ===================== */
 .badge {
@@ -151,12 +173,12 @@ input.bad:focus { box-shadow: 0 0 0 3px #f6e3df; }
 .badge.blue  { background: #e3ecf5; color: #2d567f; }
 .badge.gray  { background: var(--paper-2); color: var(--ink-faint); }
 
-/* ===================== Таблицы (зебра для читаемости) ===================== */
+/* ===================== Таблицы (зебра) ===================== */
 table { width: 100%; border-collapse: collapse; }
-th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-faint); font-weight: 700; padding: 11px 16px; border-bottom: 1px solid var(--line); }
+th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .07em; color: var(--ink-faint); font-weight: 700; padding: 11px 16px; border-bottom: 1px solid var(--line); }
 td { padding: 13px 16px; border-bottom: 1px solid var(--line-soft); font-size: 13.5px; vertical-align: middle; }
 tbody tr { transition: background .12s; }
-tbody tr:nth-child(even) { background: rgba(20,33,28,.018); }       /* зебра */
+tbody tr:nth-child(even) { background: rgba(14,42,42,.018); }
 tbody tr:hover { background: var(--green-soft); }
 tr:last-child td { border-bottom: none; }
 .mono { font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 12.5px; }
@@ -167,23 +189,22 @@ tr:last-child td { border-bottom: none; }
 .spread { display: flex; justify-content: space-between; align-items: center; }
 .grid { display: grid; gap: 14px; }
 
-/* Заголовок раздела с воздухом */
 .page-head { margin-bottom: var(--s3); }
-.page-head h1 { font-size: 30px; }
-.page-head .sub { color: var(--ink-soft); margin: 4px 0 0; font-size: 14.5px; }
+.page-head h1 { font-size: 34px; }
+.page-head .sub { color: var(--ink-soft); margin: 6px 0 0; font-size: 14.5px; }
 
-/* Тонкая латунная разделительная черта (визуальное дыхание) */
-.rule { height: 1px; background: linear-gradient(90deg, transparent, var(--gold) 20%, var(--gold) 80%, transparent); opacity: .35; border: 0; margin: var(--s4) 0; }
+.rule { height: 1px; background: linear-gradient(90deg, transparent, var(--gold) 20%, var(--gold) 80%, transparent); opacity: .4; border: 0; margin: var(--s4) 0; }
+.eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-strong); }
 
 /* ===================== Scroll-reveal ===================== */
-.reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1); will-change: opacity, transform; }
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity .65s cubic-bezier(.2,.7,.2,1), transform .65s cubic-bezier(.2,.7,.2,1); will-change: opacity, transform; }
 .reveal.is-visible { opacity: 1; transform: none; }
 
-/* ===================== Скелетоны загрузки ===================== */
+/* ===================== Скелетоны ===================== */
 .skel { position: relative; overflow: hidden; background: var(--paper-2); border-radius: 8px; }
 .skel::after {
   content: ''; position: absolute; inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.65), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.6), transparent);
   transform: translateX(-100%);
   animation: shimmer 1.3s infinite;
 }
@@ -196,8 +217,8 @@ tr:last-child td { border-bottom: none; }
 ::-webkit-scrollbar-track { background: transparent; }
 
 /* ===================== Переходы вью ===================== */
-.fade-enter-active, .fade-leave-active { transition: opacity .22s ease, transform .22s ease; }
-.fade-enter-from, .fade-leave-to { opacity: 0; transform: translateY(6px); }
+.fade-enter-active, .fade-leave-active { transition: opacity .26s ease, transform .26s ease; }
+.fade-enter-from, .fade-leave-to { opacity: 0; transform: translateY(8px); }
 
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
@@ -209,15 +230,32 @@ tr:last-child td { border-bottom: none; }
 /* ===================== Мобильная адаптация ===================== */
 .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
+/* Таблица → карточки на телефоне (data-label на td) */
 @media (max-width: 640px) {
   body { font-size: 13.5px; }
-  h1 { font-size: 24px !important; }
-  .page-head h1 { font-size: 24px; }
+  h1 { font-size: 26px !important; }
+  .page-head h1 { font-size: 27px; }
+  .page-head .sub { font-size: 13.5px; }
+
   .modal .row { flex-direction: column; align-items: stretch; gap: 12px; }
   .modal .row > * { width: 100% !important; flex: 1 1 auto !important; }
   .toolbar { flex-wrap: wrap; }
   .toolbar > * { max-width: none !important; flex: 1 1 140px; }
-  .table-scroll table { min-width: 560px; }
   .spread { flex-wrap: wrap; gap: 12px; }
   .modal { width: 100% !important; }
+
+  /* Адаптивная таблица-карточки */
+  .table-cards table, .table-cards thead, .table-cards tbody, .table-cards th, .table-cards td, .table-cards tr { display: block; }
+  .table-cards thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .table-cards tbody tr {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    box-shadow: var(--shadow); margin-bottom: 12px; padding: 6px 4px;
+  }
+  .table-cards tbody tr:nth-child(even) { background: var(--card); }
+  .table-cards td { border: none; padding: 9px 16px; display: flex; justify-content: space-between; gap: 14px; align-items: center; text-align: right; }
+  .table-cards td::before {
+    content: attr(data-label); text-align: left; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .05em; color: var(--ink-faint); flex: 0 0 auto;
+  }
+  .table-cards td:empty { display: none; }
 }

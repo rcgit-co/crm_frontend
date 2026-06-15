@@ -151,7 +151,7 @@ async function setStatus(p, status) {
 .ptop { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
 .ptype { font-size: 12px; }
 .ptitle { font-size: 16px; line-height: 1.3; }
-.pprice { font-family: var(--serif); font-size: 22px; color: var(--green-deep); margin: 4px 0; }
+.pprice { font-family: var(--num); font-weight: 600; font-size: 21px; color: var(--green-deep); margin: 4px 0; font-variant-numeric: tabular-nums; }
 .pmeta { display: flex; gap: 12px; font-size: 13px; flex-wrap: wrap; }
 .paddr { font-size: 12.5px; min-height: 16px; }
 .pactions { display: flex; gap: 8px; margin-top: 12px; align-items: center; }

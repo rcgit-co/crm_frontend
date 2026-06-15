@@ -5,6 +5,7 @@ import { auth } from '../stores/auth.js'
 import { authApi } from '../api/auth.js'
 import { agencyApi } from '../api/agency.js'
 import { toasts } from '../stores/toast.js'
+import BrandLogo from '../components/BrandLogo.vue'
 
 const router = useRouter()
 // Компания создаётся по ИНН; первый пользователь становится владельцем.
@@ -86,7 +87,8 @@ async function submit() {
   <div class="auth">
     <div class="form-side">
       <div class="form-box card">
-        <h2>Регистрация агентства</h2>
+        <BrandLogo variant="full" tone="light" :size="34" />
+        <h2 style="margin-top:18px">Регистрация агентства</h2>
         <p class="muted">Создаём владельца и агентство сразу — после регистрации можно работать.</p>
 
         <div v-if="generalError" class="err-banner">{{ generalError }}</div>

@@ -138,21 +138,21 @@ async function toggleActive(u) {
         variant="table" empty-text="Сотрудников нет"
         :searching="searching" :search-query="search" @reset="resetFilters"
       >
-        <div class="table-scroll"><table>
+        <div class="table-scroll table-cards"><table>
           <thead><tr><th>Сотрудник</th><th>Логин</th><th>Контакты</th><th>Роль</th><th>Статус</th><th></th></tr></thead>
           <tbody>
             <tr v-for="u in items" :key="u.id">
-              <td><div class="row" style="gap:10px"><span class="ava">{{ initials(u.name) }}</span><strong>{{ u.name || '—' }}</strong></div></td>
-              <td class="mono">{{ u.login || '—' }}</td>
-              <td class="muted">{{ u.email || '—' }}<br />{{ u.phone || '' }}</td>
-              <td>
+              <td data-label="Сотрудник"><div class="row" style="gap:10px"><span class="ava">{{ initials(u.name) }}</span><strong>{{ u.name || '—' }}</strong></div></td>
+              <td class="mono" data-label="Логин">{{ u.login || '—' }}</td>
+              <td class="muted" data-label="Контакты">{{ u.email || '—' }}<br />{{ u.phone || '' }}</td>
+              <td data-label="Роль">
                 <select v-if="canManage && u.role !== 'owner'" :value="u.role" @change="changeRole(u, $event.target.value)" class="role-sel">
                   <option v-for="(l,k) in ASSIGNABLE" :key="k" :value="k">{{ l }}</option>
                 </select>
                 <span v-else class="badge gray">{{ ROLES[u.role] || u.role }}</span>
               </td>
-              <td><span class="badge" :class="u.is_active !== false ? 'green' : 'gray'"><span class="dot" />{{ u.is_active !== false ? 'Активен' : 'Отключён' }}</span></td>
-              <td style="text-align:right;white-space:nowrap">
+              <td data-label="Статус"><span class="badge" :class="u.is_active !== false ? 'green' : 'gray'"><span class="dot" />{{ u.is_active !== false ? 'Активен' : 'Отключён' }}</span></td>
+              <td class="actions-cell" style="text-align:right;white-space:nowrap">
                 <template v-if="canManage && u.role !== 'owner'">
                   <button class="sm ghost" @click="openEdit(u)">Изм.</button>
                   <button class="sm" :class="u.is_active !== false ? 'danger' : 'ghost'" @click="toggleActive(u)">{{ u.is_active !== false ? 'Отключить' : 'Включить' }}</button>
